@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { createLead, createLeadEvent } from "@/lib/database"
+import { createLead, createLeadEvent, testConnection } from "@/lib/database"
 
 const leadSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -139,10 +139,42 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+    return NextResponse.json(
+      {
+        error: "Erro interno do servidor",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    )
   }
 }
 
 export async function GET() {
-  return NextResponse.json({ message: "Lead API is working" })
+  try {
+    const connectionTest = await testConnection()
+
+    if (connectionTest.success) {
+      return NextResponse.json({
+        message: "Lead API is working",
+        database: "Connected successfully",
+        timestamp: new Date().toISOString(),
+      })
+    } else {
+      return NextResponse.json(
+        {
+          error: "Database connection failed",
+          details: connectionTest.message,
+        },
+        { status: 500 },
+      )
+    }
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: "API connection failed",
+        details: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    )
+  }
 }

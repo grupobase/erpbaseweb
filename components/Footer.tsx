@@ -1,163 +1,207 @@
 "use client"
 
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Youtube } from "lucide-react"
+import type React from "react"
+
+import { useState } from "react"
+import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Youtube, ArrowRight } from "lucide-react"
+import CtaModal from "./CtaModal"
 
 export default function Footer() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [email, setEmail] = useState("")
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle newsletter subscription
+    console.log("Newsletter subscription:", email)
+    setEmail("")
+    alert("Obrigado por se inscrever em nossa newsletter!")
+  }
+
   return (
-    <footer id="contato" className="bg-gray-900 text-white">
+    <footer className="bg-gray-900 text-white">
+      {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold mb-4">Base Clínicas</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">Base Clínicas</h3>
             <p className="text-gray-300 mb-6">
-              Sistema completo para gestão de clínicas e consultórios. Transformando a prática médica com tecnologia e
-              inovação.
+              Transformando a gestão médica com tecnologia de ponta, segurança e simplicidade.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+
+            <div className="space-y-3">
+              <div className="flex items-center">
+                <Phone className="h-5 w-5 text-blue-400 mr-3" />
+                <span className="text-gray-300">(11) 3000-0000</span>
+              </div>
+              <div className="flex items-center">
+                <Mail className="h-5 w-5 text-blue-400 mr-3" />
+                <span className="text-gray-300">contato@grupobase.com.br</span>
+              </div>
+              <div className="flex items-start">
+                <MapPin className="h-5 w-5 text-blue-400 mr-3 mt-1" />
+                <span className="text-gray-300">
+                  Av. Paulista, 1000
+                  <br />
+                  São Paulo, SP - 01310-100
+                </span>
+              </div>
+            </div>
+
+            {/* Social Media */}
+            <div className="flex space-x-4 mt-6">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Linkedin className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Youtube className="h-6 w-6" />
               </a>
             </div>
           </div>
 
-          {/* Contact Info */}
+          {/* Products */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contato</h4>
-            <div className="space-y-3">
-              <div className="flex items-center">
-                <Phone className="h-5 w-5 mr-3 text-blue-400" />
-                <div>
-                  <div className="font-medium">(11) 3000-0000</div>
-                  <div className="text-sm text-gray-400">Segunda a Sexta, 8h às 18h</div>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <Mail className="h-5 w-5 mr-3 text-blue-400" />
-                <div>
-                  <div className="font-medium">contato@grupobase.com.br</div>
-                  <div className="text-sm text-gray-400">Suporte técnico 24/7</div>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <MapPin className="h-5 w-5 mr-3 text-blue-400 mt-1" />
-                <div>
-                  <div className="font-medium">São Paulo - SP</div>
-                  <div className="text-sm text-gray-400">Av. Paulista, 1000 - Bela Vista</div>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <Clock className="h-5 w-5 mr-3 text-blue-400" />
-                <div>
-                  <div className="font-medium">Horário de Atendimento</div>
-                  <div className="text-sm text-gray-400">Seg-Sex: 8h-18h | Sáb: 8h-12h</div>
-                </div>
-              </div>
-            </div>
+            <h4 className="text-lg font-semibold text-white mb-4">Produtos</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Base Clínicas Medicina
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Base Clínicas Odontologia
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Base Clínicas Psicologia
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Telemedicina
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Prontuário Eletrônico
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Agendamento Online
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Quick Links */}
+          {/* Resources */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Links Rápidos</h4>
-            <ul className="space-y-2">
+            <h4 className="text-lg font-semibold text-white mb-4">Recursos</h4>
+            <ul className="space-y-3">
               <li>
-                <a href="#recursos" className="text-gray-300 hover:text-white transition-colors">
-                  Recursos
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Central de Ajuda
                 </a>
               </li>
               <li>
-                <a href="#depoimentos" className="text-gray-300 hover:text-white transition-colors">
-                  Depoimentos
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Documentação
                 </a>
               </li>
               <li>
-                <a href="/precos" className="text-gray-300 hover:text-white transition-colors">
-                  Preços
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Webinars
                 </a>
               </li>
               <li>
-                <a href="/blog" className="text-gray-300 hover:text-white transition-colors">
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="/suporte" className="text-gray-300 hover:text-white transition-colors">
-                  Suporte
+                <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Casos de Sucesso
                 </a>
               </li>
               <li>
-                <a href="/treinamentos" className="text-gray-300 hover:text-white transition-colors">
-                  Treinamentos
-                </a>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="text-gray-300 hover:text-blue-400 transition-colors text-left"
+                >
+                  Solicitar Demo
+                </button>
               </li>
             </ul>
           </div>
 
-          {/* Specialties */}
+          {/* Newsletter */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Especialidades</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="?specialty=medicina" className="text-gray-300 hover:text-white transition-colors">
-                  Medicina
-                </a>
-              </li>
-              <li>
-                <a href="?specialty=odontologia" className="text-gray-300 hover:text-white transition-colors">
-                  Odontologia
-                </a>
-              </li>
-              <li>
-                <a href="?specialty=psicologia" className="text-gray-300 hover:text-white transition-colors">
-                  Psicologia
-                </a>
-              </li>
-              <li>
-                <a href="?specialty=fisioterapia" className="text-gray-300 hover:text-white transition-colors">
-                  Fisioterapia
-                </a>
-              </li>
-              <li>
-                <a href="?specialty=fonoaudiologia" className="text-gray-300 hover:text-white transition-colors">
-                  Fonoaudiologia
-                </a>
-              </li>
-              <li>
-                <a href="?specialty=nutricao" className="text-gray-300 hover:text-white transition-colors">
-                  Nutrição
-                </a>
-              </li>
-            </ul>
+            <h4 className="text-lg font-semibold text-white mb-4">Newsletter</h4>
+            <p className="text-gray-300 mb-4">Receba dicas exclusivas sobre gestão médica e novidades do setor.</p>
+
+            <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+              <div className="flex">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Seu email profissional"
+                  className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white placeholder-gray-400"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition-colors"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-6">
+              <h5 className="text-sm font-semibold text-white mb-2">Certificações</h5>
+              <div className="flex space-x-4">
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">CFM</div>
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">SBIS</div>
+                <div className="bg-gray-800 px-3 py-1 rounded text-xs text-gray-300">LGPD</div>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <div className="text-gray-400 text-sm">© 2024 Grupo Base. Todos os direitos reservados.</div>
+      {/* Bottom Footer */}
+      <div className="border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-400 text-sm mb-4 md:mb-0">© 2024 Grupo Base. Todos os direitos reservados.</div>
+
             <div className="flex space-x-6 text-sm">
-              <a href="/privacidade" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
                 Política de Privacidade
               </a>
-              <a href="/termos" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
                 Termos de Uso
               </a>
-              <a href="/lgpd" className="text-gray-400 hover:text-white transition-colors">
-                LGPD
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                Cookies
               </a>
             </div>
           </div>
         </div>
       </div>
+
+      {/* CTA Modal */}
+      <CtaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </footer>
   )
 }

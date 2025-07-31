@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import Header from "@/components/Header"
 import Hero from "@/components/Hero"
 import Resources from "@/components/Resources"
@@ -26,93 +27,15 @@ export const metadata: Metadata = {
   },
 }
 
-// Segmentos por especialidade
-const segments = {
-  medicina: {
-    name: "Médicos",
-    color: "#1D4ED8",
-    specialty: "medicina",
-    title: "Sistema Médico Completo para sua Clínica",
-    subtitle:
-      "Prontuário eletrônico, prescrições digitais, auditoria TISS e controle financeiro. Tudo integrado para médicos.",
-    bullets: [
-      "Prontuário Eletrônico LGPD",
-      "Prescrições Digitais",
-      "Auditoria TISS Automática",
-      "Controle de Convênios",
-    ],
-    cta: "Solicitar Demonstração Médica",
-  },
-  odontologia: {
-    name: "Dentistas",
-    color: "#DC2626",
-    specialty: "odontologia",
-    title: "Software Odontológico Completo",
-    subtitle:
-      "Odontograma digital, agenda especializada, controle de tratamentos e financeiro integrado para dentistas.",
-    bullets: [
-      "Odontograma Digital Completo",
-      "Agenda Especializada",
-      "Controle de Tratamentos",
-      "Gestão Financeira Integrada",
-    ],
-    cta: "Solicitar Demonstração Odontológica",
-  },
-  psicologia: {
-    name: "Psicólogos",
-    color: "#7C3AED",
-    specialty: "psicologia",
-    title: "Sistema Psicológico Especializado",
-    subtitle: "Prontuário seguro, agenda flexível, controle de sessões e relatórios especializados para psicólogos.",
-    bullets: ["Prontuário Psicológico Seguro", "Agenda Flexível", "Controle de Sessões", "Relatórios Especializados"],
-    cta: "Solicitar Demonstração Psicológica",
-  },
-  fisioterapia: {
-    name: "Fisioterapeutas",
-    color: "#059669",
-    specialty: "fisioterapia",
-    title: "Software para Fisioterapeutas",
-    subtitle:
-      "Evolução de tratamentos, exercícios personalizados, agenda otimizada e controle completo para fisioterapeutas.",
-    bullets: ["Evolução de Tratamentos", "Exercícios Personalizados", "Agenda Otimizada", "Controle de Evolução"],
-    cta: "Solicitar Demonstração Fisioterápica",
-  },
-  fonoaudiologia: {
-    name: "Fonoaudiólogos",
-    color: "#F97316",
-    specialty: "fonoaudiologia",
-    title: "Sistema para Fonoaudiólogos",
-    subtitle: "Avaliações especializadas, planos terapêuticos, agenda personalizada e relatórios detalhados.",
-    bullets: ["Avaliações Especializadas", "Planos Terapêuticos", "Agenda Personalizada", "Relatórios Detalhados"],
-    cta: "Solicitar Demonstração Fonoaudiológica",
-  },
+interface PageProps {
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default function BaseClinicasPage({
-  searchParams,
-}: {
-  searchParams: { specialty?: string; utm_campaign?: string }
-}) {
-  // Detectar segmento baseado em parâmetros
-  const detectSegment = () => {
-    const { specialty, utm_campaign } = searchParams
-
-    if (specialty && segments[specialty as keyof typeof segments]) {
-      return segments[specialty as keyof typeof segments]
-    }
-
-    if (utm_campaign) {
-      const campaignSegment = Object.values(segments).find((segment) => utm_campaign.includes(segment.specialty))
-      if (campaignSegment) return campaignSegment
-    }
-
-    return segments.medicina // Default
-  }
-
-  const currentSegment = detectSegment()
+export default function BaseClinicasPage({ searchParams }: PageProps) {
+  const specialty = typeof searchParams.specialty === "string" ? searchParams.specialty : "medicina"
 
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* Google Tag Manager */}
       <script
         dangerouslySetInnerHTML={{
@@ -130,19 +53,23 @@ export default function BaseClinicasPage({
       <Header />
 
       {/* Hero Section */}
-      <Hero segment={currentSegment} />
+      <main>
+        <Suspense fallback={<div>Carregando...</div>}>
+          <Hero specialty={specialty} />
+        </Suspense>
 
-      {/* Resources Section */}
-      <Resources segment={currentSegment} />
+        {/* Resources Section */}
+        <Resources />
 
-      {/* Testimonials Section */}
-      <Testimonials segment={currentSegment} />
-
-      {/* Test Form - apenas em desenvolvimento */}
-      {process.env.NODE_ENV === "development" && <TestForm />}
+        {/* Testimonials Section */}
+        <Testimonials />
+      </main>
 
       {/* Footer */}
       <Footer />
+
+      {/* Test Component - Only in development */}
+      {process.env.NODE_ENV === "development" && <TestForm />}
 
       {/* Schema.org Structured Data */}
       <script
@@ -179,6 +106,6 @@ export default function BaseClinicasPage({
           }),
         }}
       />
-    </main>
+    </div>
   )
 }

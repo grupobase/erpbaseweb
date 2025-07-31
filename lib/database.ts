@@ -37,8 +37,67 @@ export interface LeadEvent {
   created_at: string
 }
 
+// Função para verificar se as tabelas existem e criá-las se necessário
+export async function ensureTablesExist() {
+  try {
+    // Criar tabela de leads se não existir
+    await sql`
+      CREATE TABLE IF NOT EXISTS leads (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        phone VARCHAR(20),
+        specialty VARCHAR(100),
+        clinic_name VARCHAR(255),
+        city VARCHAR(100),
+        state VARCHAR(2),
+        utm_source VARCHAR(100),
+        utm_medium VARCHAR(100),
+        utm_campaign VARCHAR(100),
+        utm_content VARCHAR(100),
+        utm_term VARCHAR(100),
+        page_url TEXT,
+        user_agent TEXT,
+        ip_address VARCHAR(45),
+        status VARCHAR(20) DEFAULT 'new',
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        
+        CONSTRAINT leads_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')
+      )
+    `
+
+    // Criar tabela de eventos se não existir
+    await sql`
+      CREATE TABLE IF NOT EXISTS lead_events (
+        id SERIAL PRIMARY KEY,
+        lead_id INTEGER REFERENCES leads(id) ON DELETE CASCADE,
+        event_type VARCHAR(100) NOT NULL,
+        event_data JSONB,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `
+
+    // Criar índices se não existirem
+    await sql`CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_leads_specialty ON leads(specialty)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_leads_created_at ON leads(created_at)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_lead_events_lead_id ON lead_events(lead_id)`
+
+    return true
+  } catch (error) {
+    console.error("Error ensuring tables exist:", error)
+    return false
+  }
+}
+
 // Função para criar um novo lead
 export async function createLead(leadData: Omit<Lead, "id" | "created_at" | "updated_at">) {
+  // Garantir que as tabelas existem
+  await ensureTablesExist()
+
   const result = await sql`
     INSERT INTO leads (
       name, email, phone, specialty, clinic_name, city, state,
@@ -58,6 +117,8 @@ export async function createLead(leadData: Omit<Lead, "id" | "created_at" | "upd
 
 // Função para buscar leads
 export async function getLeads(limit = 50, offset = 0) {
+  await ensureTablesExist()
+
   const result = await sql`
     SELECT * FROM leads 
     ORDER BY created_at DESC 
@@ -68,44 +129,36 @@ export async function getLeads(limit = 50, offset = 0) {
 
 // Função para buscar lead por ID
 export async function getLeadById(id: number) {
+  await ensureTablesExist()
+
   const result = await sql`
     SELECT * FROM leads WHERE id = ${id}
   `
   return result[0] as Lead | undefined
 }
 
-// Função para atualizar lead
-export async function updateLead(id: number, updates: Partial<Lead>) {
-  const setClause = Object.keys(updates)
-    .filter((key) => key !== "id" && key !== "created_at" && key !== "updated_at")
-    .map((key) => `${key} = $${Object.keys(updates).indexOf(key) + 2}`)
-    .join(", ")
-
-  if (!setClause) return null
-
-  const values = [
-    id,
-    ...Object.values(updates).filter((_, index) => {
-      const key = Object.keys(updates)[index]
-      return key !== "id" && key !== "created_at" && key !== "updated_at"
-    }),
-  ]
-
-  const result = await sql`
-    UPDATE leads 
-    SET ${sql.unsafe(setClause)}
-    WHERE id = ${id}
-    RETURNING *
-  `
-  return result[0] as Lead | undefined
-}
-
 // Função para criar evento de lead
 export async function createLeadEvent(leadId: number, eventType: string, eventData?: Record<string, any>) {
+  await ensureTablesExist()
+
   const result = await sql`
     INSERT INTO lead_events (lead_id, event_type, event_data)
     VALUES (${leadId}, ${eventType}, ${JSON.stringify(eventData || {})})
     RETURNING *
   `
   return result[0] as LeadEvent
+}
+
+// Função para testar conexão
+export async function testConnection() {
+  try {
+    const result = await sql`SELECT 1 as test`
+    return { success: true, message: "Conexão com banco OK", data: result }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Erro na conexão",
+      error: error instanceof Error ? error.message : "Unknown error",
+    }
+  }
 }
