@@ -1,242 +1,175 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { Play, CheckCircle, ArrowRight, X } from "lucide-react"
+import { Play, CheckCircle, Star, Users, Shield, Clock } from "lucide-react"
 import CtaModal from "./CtaModal"
 
-interface HeroProps {
-  segment?: {
-    name: string
-    color: string
-    specialty: string
-    title: string
-    subtitle: string
-    bullets: string[]
-    cta: string
-  }
+interface Segment {
+  name: string
+  color: string
+  specialty: string
+  title: string
+  subtitle: string
+  bullets: string[]
+  cta: string
 }
 
-const defaultSegment = {
-  name: "Profissionais da Saúde",
-  color: "#1D4ED8",
-  specialty: "medicina",
-  title: "Sistema Completo para Gestão da sua Clínica",
-  subtitle: "Prontuário eletrônico, agenda online, controle financeiro e muito mais. Tudo em um só lugar.",
-  bullets: [
-    "Prontuário Eletrônico LGPD",
-    "Agenda Online Inteligente",
-    "Controle Financeiro Completo",
-    "Auditoria TISS Automática",
-  ],
-  cta: "Solicitar Demonstração",
+interface HeroProps {
+  segment: Segment
 }
 
 export default function Hero({ segment }: HeroProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
 
-  const currentSegment = segment || defaultSegment
+  const handleCtaClick = () => {
+    // Track event
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "cta_click", {
+        event_category: "engagement",
+        event_label: segment.specialty,
+        value: 1,
+      })
+    }
+    setIsModalOpen(true)
+  }
+
+  const handleVideoPlay = () => {
+    setIsVideoPlaying(true)
+    // Track video play event
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "video_play", {
+        event_category: "engagement",
+        event_label: "hero_video",
+        value: 1,
+      })
+    }
+  }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+    <section className="relative bg-gradient-to-br from-gray-50 to-white py-20 lg:py-32 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, ${currentSegment.color} 2px, transparent 2px)`,
-            backgroundSize: "50px 50px",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23000000' fillOpacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
-          >
+          <div className="text-center lg:text-left">
             {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-6"
-              style={{
-                backgroundColor: `${currentSegment.color}15`,
-                color: currentSegment.color,
-              }}
-            >
-              <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: currentSegment.color }} />
-              Especializado para {currentSegment.name}
-            </motion.div>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+              <Star className="h-4 w-4 mr-2 text-yellow-500" />
+              Sistema #1 para {segment.name}
+            </div>
 
             {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
-            >
-              {currentSegment.title}
-            </motion.h1>
+            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">{segment.title}</h1>
 
             {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl text-gray-600 mb-8 leading-relaxed"
-            >
-              {currentSegment.subtitle}
-            </motion.p>
+            <p className="text-xl text-gray-600 mb-8 leading-relaxed">{segment.subtitle}</p>
 
             {/* Benefits */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="grid sm:grid-cols-2 gap-3 mb-8"
-            >
-              {currentSegment.bullets.map((bullet, index) => (
-                <div key={index} className="flex items-center text-gray-700">
-                  <CheckCircle className="h-5 w-5 mr-3 flex-shrink-0" style={{ color: currentSegment.color }} />
-                  <span className="text-sm font-medium">{bullet}</span>
+            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              {segment.bullets.map((bullet, index) => (
+                <div key={index} className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                  <span className="text-gray-700 font-medium">{bullet}</span>
                 </div>
               ))}
-            </motion.div>
+            </div>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <button
-                onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-                style={{ backgroundColor: currentSegment.color }}
+                onClick={handleCtaClick}
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
+                style={{ backgroundColor: segment.color }}
               >
-                {currentSegment.cta}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                {segment.cta}
               </button>
 
               <button
-                onClick={() => setIsVideoPlaying(true)}
-                className="inline-flex items-center px-8 py-4 border-2 text-base font-medium rounded-xl bg-white hover:bg-gray-50 transition-colors duration-200"
-                style={{
-                  borderColor: currentSegment.color,
-                  color: currentSegment.color,
-                }}
+                onClick={handleVideoPlay}
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-700 bg-white border-2 border-gray-200 rounded-lg hover:border-gray-300 hover:shadow-md transition-all duration-200"
               >
-                <Play className="mr-2 h-5 w-5" />
+                <Play className="h-5 w-5 mr-2" />
                 Ver Demonstração
               </button>
-            </motion.div>
+            </div>
 
-            {/* Trust Indicators */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-              className="mt-12 pt-8 border-t border-gray-200"
-            >
-              <p className="text-sm text-gray-500 mb-4">Mais de 10.000 profissionais confiam no Base</p>
-              <div className="flex items-center justify-center lg:justify-start space-x-8 opacity-60">
-                <div className="text-xs font-semibold text-gray-400">LGPD</div>
-                <div className="text-xs font-semibold text-gray-400">CFM</div>
-                <div className="text-xs font-semibold text-gray-400">TISS</div>
-                <div className="text-xs font-semibold text-gray-400">SSL</div>
+            {/* Social Proof */}
+            <div className="flex flex-col sm:flex-row items-center gap-6 text-sm text-gray-600">
+              <div className="flex items-center">
+                <Users className="h-5 w-5 mr-2" />
+                <span>+5.000 profissionais confiam</span>
               </div>
-            </motion.div>
-          </motion.div>
+              <div className="flex items-center">
+                <Shield className="h-5 w-5 mr-2" />
+                <span>100% LGPD Compliance</span>
+              </div>
+              <div className="flex items-center">
+                <Clock className="h-5 w-5 mr-2" />
+                <span>Suporte 24/7</span>
+              </div>
+            </div>
+          </div>
 
-          {/* Visual */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            {/* Main Image */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img
-                src="/placeholder.svg?height=600&width=800&text=Base+Clínicas+Dashboard"
-                alt="Interface do Base Clínicas"
-                className="w-full h-auto"
-              />
-
-              {/* Play Button Overlay */}
-              {!isVideoPlaying && (
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+          {/* Video/Image */}
+          <div className="relative">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-100">
+              {!isVideoPlaying ? (
+                <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                   <button
-                    onClick={() => setIsVideoPlaying(true)}
-                    className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:scale-110 transition-all duration-200"
+                    onClick={handleVideoPlay}
+                    className="flex items-center justify-center w-20 h-20 bg-white bg-opacity-90 rounded-full hover:bg-opacity-100 transition-all duration-200 transform hover:scale-110"
                   >
-                    <Play className="h-8 w-8 ml-1" style={{ color: currentSegment.color }} />
+                    <Play className="h-8 w-8 text-blue-600 ml-1" />
                   </button>
+                  <div className="absolute inset-0 bg-black bg-opacity-20" />
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="text-lg font-semibold">Veja o Base Clínicas em ação</h3>
+                    <p className="text-sm opacity-90">Demonstração completa - 3 minutos</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="aspect-video">
+                  <iframe
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                    title="Demonstração Base Clínicas"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
               )}
             </div>
 
             {/* Floating Cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-              className="absolute -top-6 -left-6 bg-white rounded-xl shadow-lg p-4 border"
-            >
-              <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: currentSegment.color }} />
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">Sistema Online</p>
-                  <p className="text-xs text-gray-500">99.9% Uptime</p>
-                </div>
+            <div className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg p-4 hidden lg:block">
+              <div className="flex items-center">
+                <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                <span className="text-sm font-medium text-gray-700">Sistema Online</span>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 }}
-              className="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-lg p-4 border"
-            >
-              <div className="flex items-center space-x-3">
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">Suporte 24/7</p>
-                  <p className="text-xs text-gray-500">Sempre disponível</p>
-                </div>
+            <div className="absolute -bottom-4 -left-4 bg-white rounded-lg shadow-lg p-4 hidden lg:block">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">99.9%</div>
+                <div className="text-xs text-gray-600">Uptime</div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Video Modal */}
-      {isVideoPlaying && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-4xl aspect-video bg-black rounded-lg overflow-hidden">
-            <button
-              onClick={() => setIsVideoPlaying(false)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <X className="h-6 w-6" />
-            </button>
-            <video src="/placeholder.mp4" controls autoPlay className="w-full h-full">
-              Seu navegador não suporta vídeos.
-            </video>
-          </div>
-        </div>
-      )}
-
       {/* CTA Modal */}
-      <CtaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} segment={currentSegment} />
+      <CtaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} segment={segment} />
     </section>
   )
 }

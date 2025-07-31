@@ -1,148 +1,130 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
-import { createLead, checkEmailExists, addLeadActivity, getSystemSetting } from "@/lib/database"
+import { createLead, createLeadEvent } from "@/lib/database"
 
-// Schema de validação para o lead
 const leadSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z.string().email("Email inválido"),
-  phone: z.string().optional(),
+  phone: z.string().min(10, "Telefone deve ter pelo menos 10 dígitos"),
+  specialty: z.string().optional(),
   clinic_name: z.string().optional(),
-  specialty: z.enum(["medicina", "odontologia", "psicologia", "fisioterapia", "fonoaudiologia", "nutricao"]),
-  crm_number: z.string().optional(),
-  message: z.string().optional(),
+  city: z.string().min(2, "Cidade deve ter pelo menos 2 caracteres"),
+  state: z.string().min(2, "Estado é obrigatório"),
   utm_source: z.string().optional(),
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
   utm_content: z.string().optional(),
   utm_term: z.string().optional(),
+  page_url: z.string().optional(),
+  user_agent: z.string().optional(),
 })
 
-// Rate limiting simples (em produção, use Redis)
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+// Rate limiting simple implementation
+const rateLimitMap = new Map()
 
-function checkRateLimit(ip: string): boolean {
+function rateLimit(ip: string): boolean {
   const now = Date.now()
-  const windowMs = 15 * 60 * 1000 // 15 minutos
+  const windowMs = 60 * 1000 // 1 minute
   const maxRequests = 5
 
-  const current = rateLimitMap.get(ip)
-
-  if (!current || now > current.resetTime) {
+  if (!rateLimitMap.has(ip)) {
     rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
     return true
   }
 
-  if (current.count >= maxRequests) {
+  const limit = rateLimitMap.get(ip)
+
+  if (now > limit.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
+    return true
+  }
+
+  if (limit.count >= maxRequests) {
     return false
   }
 
-  current.count++
+  limit.count++
   return true
 }
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
+    // Get client IP
     const ip = request.ip || request.headers.get("x-forwarded-for") || "unknown"
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json({ error: "Muitas tentativas. Tente novamente em 15 minutos." }, { status: 429 })
+
+    // Rate limiting
+    if (!rateLimit(ip)) {
+      return NextResponse.json({ error: "Muitas tentativas. Tente novamente em 1 minuto." }, { status: 429 })
     }
 
-    // Parse do body
     const body = await request.json()
 
-    // Validação dos dados
+    // Validate input
     const validatedData = leadSchema.parse(body)
 
-    // Verificar se email já existe
-    const emailExists = await checkEmailExists(validatedData.email)
-    if (emailExists) {
-      return NextResponse.json({ error: "Este email já está cadastrado em nossa base." }, { status: 409 })
-    }
-
-    // Capturar dados adicionais da requisição
-    const userAgent = request.headers.get("user-agent") || undefined
-    const referer = request.headers.get("referer") || undefined
-
-    // Criar o lead
+    // Create lead in database
     const lead = await createLead({
       ...validatedData,
-      source: "website",
       ip_address: ip,
-      user_agent: userAgent,
-      page_url: referer,
-      referrer: referer,
+      status: "new",
     })
 
-    // Adicionar atividade inicial
-    await addLeadActivity(lead.id, "note", "Lead criado através do formulário do site", undefined, {
-      source: "website",
-      user_agent: userAgent,
-      ip_address: ip,
-      form_data: validatedData,
+    // Create lead event
+    await createLeadEvent(lead.id, "lead_created", {
+      source: "landing_page",
+      specialty: validatedData.specialty,
+      utm_data: {
+        source: validatedData.utm_source,
+        medium: validatedData.utm_medium,
+        campaign: validatedData.utm_campaign,
+        content: validatedData.utm_content,
+        term: validatedData.utm_term,
+      },
     })
 
-    // Enviar webhook se configurado
-    try {
-      const webhookUrl = await getSystemSetting("webhook_url")
-      if (webhookUrl && webhookUrl !== '""') {
-        const webhookData = {
-          event: "lead_created",
-          lead: {
-            id: lead.id,
-            name: lead.name,
-            email: lead.email,
-            phone: lead.phone,
-            clinic_name: lead.clinic_name,
-            specialty: lead.specialty,
-            message: lead.message,
-            created_at: lead.created_at,
-            utm_data: {
-              source: lead.utm_source,
-              medium: lead.utm_medium,
-              campaign: lead.utm_campaign,
-              content: lead.utm_content,
-              term: lead.utm_term,
-            },
-          },
-        }
-
-        await fetch(webhookUrl.replace(/"/g, ""), {
+    // Send webhook if configured
+    if (process.env.LEAD_WEBHOOK_URL) {
+      try {
+        await fetch(process.env.LEAD_WEBHOOK_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "User-Agent": "Base-Clinicas-Webhook/1.0",
           },
-          body: JSON.stringify(webhookData),
+          body: JSON.stringify({
+            event: "new_lead",
+            lead: {
+              id: lead.id,
+              name: lead.name,
+              email: lead.email,
+              phone: lead.phone,
+              specialty: lead.specialty,
+              clinic_name: lead.clinic_name,
+              city: lead.city,
+              state: lead.state,
+              created_at: lead.created_at,
+            },
+            utm: {
+              source: validatedData.utm_source,
+              medium: validatedData.utm_medium,
+              campaign: validatedData.utm_campaign,
+              content: validatedData.utm_content,
+              term: validatedData.utm_term,
+            },
+          }),
         })
+      } catch (webhookError) {
+        console.error("Webhook error:", webhookError)
+        // Don't fail the request if webhook fails
       }
-    } catch (webhookError) {
-      console.error("Erro ao enviar webhook:", webhookError)
-      // Não falhar a requisição por causa do webhook
-    }
-
-    // Tracking de analytics
-    if (typeof window !== "undefined" && (window as any).gtag) {
-      ;(window as any).gtag("event", "lead_submitted", {
-        event_category: "engagement",
-        event_label: validatedData.specialty,
-        value: 1,
-        custom_parameters: {
-          specialty: validatedData.specialty,
-          source: validatedData.utm_source || "direct",
-          campaign: validatedData.utm_campaign || "none",
-        },
-      })
     }
 
     return NextResponse.json({
       success: true,
-      message: "Lead cadastrado com sucesso!",
-      lead_id: lead.id,
+      message: "Lead criado com sucesso",
+      leadId: lead.id,
     })
   } catch (error) {
-    console.error("Erro ao processar lead:", error)
+    console.error("Lead creation error:", error)
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -157,29 +139,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ error: "Erro interno do servidor. Tente novamente." }, { status: 500 })
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
   }
 }
 
-// GET para estatísticas (opcional)
-export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const stats = searchParams.get("stats")
-
-    if (stats === "true") {
-      const { getLeadStats } = await import("@/lib/database")
-      const startDate = searchParams.get("start")
-      const endDate = searchParams.get("end")
-
-      const statistics = await getLeadStats(startDate || undefined, endDate || undefined)
-
-      return NextResponse.json(statistics)
-    }
-
-    return NextResponse.json({ message: "API de leads ativa" })
-  } catch (error) {
-    console.error("Erro ao buscar estatísticas:", error)
-    return NextResponse.json({ error: "Erro ao buscar estatísticas" }, { status: 500 })
-  }
+export async function GET() {
+  return NextResponse.json({ message: "Lead API is working" })
 }

@@ -3,38 +3,42 @@ CREATE SCHEMA IF NOT EXISTS public;
 
 -- Tabela de leads
 CREATE TABLE IF NOT EXISTS public.leads (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id SERIAL PRIMARY KEY,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     
     -- Dados pessoais
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
     
     -- Dados profissionais
-    clinic_name TEXT,
-    specialty TEXT NOT NULL DEFAULT 'medicina',
+    clinic_name VARCHAR(255),
+    specialty VARCHAR(100) NOT NULL DEFAULT 'medicina',
     crm_number TEXT,
     
     -- Dados da captura
     message TEXT,
     source TEXT DEFAULT 'website',
-    utm_source TEXT,
-    utm_medium TEXT,
-    utm_campaign TEXT,
-    utm_content TEXT,
-    utm_term TEXT,
+    utm_source VARCHAR(100),
+    utm_medium VARCHAR(100),
+    utm_campaign VARCHAR(100),
+    utm_content VARCHAR(100),
+    utm_term VARCHAR(100),
+    page_url TEXT,
+    user_agent TEXT,
+    ip_address INET,
+    
+    -- Localização
+    city VARCHAR(100),
+    state VARCHAR(50),
+    
+    -- Notas
+    notes TEXT,
     
     -- Status e atribuição
-    status TEXT DEFAULT 'new' CHECK (status IN ('new', 'contacted', 'qualified', 'converted', 'lost')),
+    status VARCHAR(50) DEFAULT 'new' CHECK (status IN ('new', 'contacted', 'qualified', 'converted', 'lost')),
     assigned_to TEXT REFERENCES neon_auth.users_sync(id),
-    
-    -- Metadados
-    ip_address INET,
-    user_agent TEXT,
-    page_url TEXT,
-    referrer TEXT,
     
     -- Índices para busca
     CONSTRAINT leads_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
@@ -51,6 +55,15 @@ CREATE TABLE IF NOT EXISTS public.lead_activities (
     activity_type TEXT NOT NULL CHECK (activity_type IN ('call', 'email', 'meeting', 'note', 'status_change')),
     description TEXT NOT NULL,
     metadata JSONB DEFAULT '{}'::jsonb
+);
+
+-- Tabela de eventos de tracking
+CREATE TABLE IF NOT EXISTS public.lead_events (
+    id SERIAL PRIMARY KEY,
+    lead_id INTEGER REFERENCES public.leads(id) ON DELETE CASCADE,
+    event_type VARCHAR(100) NOT NULL,
+    event_data JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Tabela de configurações do sistema
@@ -74,6 +87,10 @@ CREATE INDEX IF NOT EXISTS idx_leads_utm_source ON public.leads(utm_source);
 CREATE INDEX IF NOT EXISTS idx_lead_activities_lead_id ON public.lead_activities(lead_id);
 CREATE INDEX IF NOT EXISTS idx_lead_activities_created_at ON public.lead_activities(created_at);
 
+CREATE INDEX IF NOT EXISTS idx_lead_events_lead_id ON public.lead_events(lead_id);
+CREATE INDEX IF NOT EXISTS idx_lead_events_type ON public.lead_events(event_type);
+CREATE INDEX IF NOT EXISTS idx_lead_events_created_at ON public.lead_events(created_at);
+
 -- Função para atualizar updated_at automaticamente
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -84,6 +101,7 @@ END;
 $$ language 'plpgsql';
 
 -- Triggers para updated_at
+DROP TRIGGER IF EXISTS update_leads_updated_at ON public.leads;
 CREATE TRIGGER update_leads_updated_at 
     BEFORE UPDATE ON public.leads 
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
