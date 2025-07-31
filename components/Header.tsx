@@ -27,13 +27,13 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#recursos" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <a href="#recursos" className="text-gray-700 hover:text-blue-600 transition-colors">
               Recursos
             </a>
-            <a href="#depoimentos" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <a href="#depoimentos" className="text-gray-700 hover:text-blue-600 transition-colors">
               Depoimentos
             </a>
-            <a href="#contato" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+            <a href="#contato" className="text-gray-700 hover:text-blue-600 transition-colors">
               Contato
             </a>
           </nav>
@@ -55,7 +55,6 @@ export default function Header() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
-              aria-label="Abrir menu de navegação"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -68,21 +67,21 @@ export default function Header() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
               <a
                 href="#recursos"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Recursos
               </a>
               <a
                 href="#depoimentos"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Depoimentos
               </a>
               <a
                 href="#contato"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contato
