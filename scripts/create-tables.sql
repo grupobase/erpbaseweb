@@ -4,22 +4,13 @@ CREATE SCHEMA IF NOT EXISTS public;
 -- Tabela de leads
 CREATE TABLE IF NOT EXISTS public.leads (
     id SERIAL PRIMARY KEY,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
-    -- Dados pessoais
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
-    
-    -- Dados profissionais
+    specialty VARCHAR(100),
     clinic_name VARCHAR(255),
-    specialty VARCHAR(100) NOT NULL DEFAULT 'medicina',
-    crm_number TEXT,
-    
-    -- Dados da captura
-    message TEXT,
-    source TEXT DEFAULT 'website',
+    city VARCHAR(100),
+    state VARCHAR(2),
     utm_source VARCHAR(100),
     utm_medium VARCHAR(100),
     utm_campaign VARCHAR(100),
@@ -27,20 +18,12 @@ CREATE TABLE IF NOT EXISTS public.leads (
     utm_term VARCHAR(100),
     page_url TEXT,
     user_agent TEXT,
-    ip_address INET,
-    
-    -- Localização
-    city VARCHAR(100),
-    state VARCHAR(50),
-    
-    -- Notas
+    ip_address VARCHAR(45),
+    status VARCHAR(20) DEFAULT 'new',
     notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    -- Status e atribuição
-    status VARCHAR(50) DEFAULT 'new' CHECK (status IN ('new', 'contacted', 'qualified', 'converted', 'lost')),
-    assigned_to TEXT REFERENCES neon_auth.users_sync(id),
-    
-    -- Índices para busca
     CONSTRAINT leads_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
@@ -63,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.lead_events (
     lead_id INTEGER REFERENCES public.leads(id) ON DELETE CASCADE,
     event_type VARCHAR(100) NOT NULL,
     event_data JSONB,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabela de configurações do sistema
@@ -79,23 +62,18 @@ CREATE TABLE IF NOT EXISTS public.system_settings (
 
 -- Índices para performance
 CREATE INDEX IF NOT EXISTS idx_leads_email ON public.leads(email);
-CREATE INDEX IF NOT EXISTS idx_leads_status ON public.leads(status);
 CREATE INDEX IF NOT EXISTS idx_leads_specialty ON public.leads(specialty);
+CREATE INDEX IF NOT EXISTS idx_leads_status ON public.leads(status);
 CREATE INDEX IF NOT EXISTS idx_leads_created_at ON public.leads(created_at);
 CREATE INDEX IF NOT EXISTS idx_leads_utm_source ON public.leads(utm_source);
-
-CREATE INDEX IF NOT EXISTS idx_lead_activities_lead_id ON public.lead_activities(lead_id);
-CREATE INDEX IF NOT EXISTS idx_lead_activities_created_at ON public.lead_activities(created_at);
-
 CREATE INDEX IF NOT EXISTS idx_lead_events_lead_id ON public.lead_events(lead_id);
 CREATE INDEX IF NOT EXISTS idx_lead_events_type ON public.lead_events(event_type);
-CREATE INDEX IF NOT EXISTS idx_lead_events_created_at ON public.lead_events(created_at);
 
 -- Função para atualizar updated_at automaticamente
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.updated_at = NOW();
+    NEW.updated_at = CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
@@ -118,9 +96,9 @@ INSERT INTO public.system_settings (key, value, description) VALUES
 ('auto_assign_leads', 'false', 'Atribuir leads automaticamente')
 ON CONFLICT (key) DO NOTHING;
 
--- Dados de exemplo para desenvolvimento
-INSERT INTO public.leads (name, email, phone, clinic_name, specialty, message, source, utm_source, utm_campaign) VALUES
-('Dr. João Silva', 'joao.silva@clinicaexemplo.com.br', '(11) 99999-9999', 'Clínica Exemplo', 'medicina', 'Gostaria de conhecer melhor o sistema Base Clínicas', 'website', 'google', 'medicos_google'),
-('Dra. Maria Santos', 'maria.santos@odontologia.com.br', '(11) 88888-8888', 'Odontologia Santos', 'odontologia', 'Preciso de um sistema para minha clínica odontológica', 'website', 'facebook', 'dentistas_facebook'),
-('Dr. Carlos Oliveira', 'carlos@psicologia.com.br', '(11) 77777-7777', 'Consultório Psicológico', 'psicologia', 'Interessado no módulo de prontuário eletrônico', 'website', 'instagram', 'psicologos_instagram')
+-- Inserir dados de exemplo para teste
+INSERT INTO public.leads (name, email, phone, specialty, clinic_name, city, state, utm_source, utm_medium, utm_campaign, status) VALUES
+('Dr. João Silva', 'joao@clinicaexemplo.com.br', '(11) 99999-9999', 'medicina', 'Clínica Exemplo', 'São Paulo', 'SP', 'google', 'cpc', 'medicina-sp', 'new'),
+('Dra. Maria Santos', 'maria@odontologia.com.br', '(21) 88888-8888', 'odontologia', 'Odonto Santos', 'Rio de Janeiro', 'RJ', 'facebook', 'social', 'odonto-rj', 'contacted'),
+('Dr. Pedro Costa', 'pedro@psicologia.com.br', '(31) 77777-7777', 'psicologia', 'Consultório Costa', 'Belo Horizonte', 'MG', 'direct', 'website', 'psicologia-mg', 'qualified')
 ON CONFLICT DO NOTHING;

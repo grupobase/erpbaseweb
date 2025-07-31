@@ -4,6 +4,7 @@ import Hero from "@/components/Hero"
 import Resources from "@/components/Resources"
 import Testimonials from "@/components/Testimonials"
 import Footer from "@/components/Footer"
+import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
   title: "Base Clínicas - Sistema Completo para Gestão de Clínicas e Consultórios",
@@ -136,6 +137,9 @@ export default function BaseClinicasPage({
 
       {/* Testimonials Section */}
       <Testimonials segment={currentSegment} />
+
+      {/* Test Form - apenas em desenvolvimento */}
+      {process.env.NODE_ENV === "development" && <TestForm />}
 
       {/* Footer */}
       <Footer />

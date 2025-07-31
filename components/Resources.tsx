@@ -1,6 +1,19 @@
 "use client"
 
-import { FileText, Calendar, DollarSign, BarChart3, Shield, Smartphone, Users, Clock } from "lucide-react"
+import { useState } from "react"
+import {
+  FileText,
+  Calendar,
+  CreditCard,
+  Users,
+  BarChart3,
+  Shield,
+  Smartphone,
+  Cloud,
+  CheckCircle,
+  ArrowRight,
+} from "lucide-react"
+import CtaModal from "./CtaModal"
 
 interface Segment {
   name: string
@@ -16,192 +29,169 @@ interface ResourcesProps {
   segment: Segment
 }
 
+const features = [
+  {
+    icon: FileText,
+    title: "Prontuário Eletrônico",
+    description: "Prontuário digital completo com histórico médico, exames, prescrições e evolução do paciente.",
+    benefits: ["Conforme LGPD", "Backup automático", "Acesso rápido", "Histórico completo"],
+  },
+  {
+    icon: Calendar,
+    title: "Agenda Inteligente",
+    description: "Sistema de agendamento online com confirmação automática, lembretes e controle de horários.",
+    benefits: ["Agendamento online", "Lembretes SMS/WhatsApp", "Controle de faltas", "Agenda compartilhada"],
+  },
+  {
+    icon: CreditCard,
+    title: "Gestão Financeira",
+    description: "Controle completo de receitas, despesas, convênios e relatórios financeiros detalhados.",
+    benefits: ["Controle de convênios", "Relatórios detalhados", "Fluxo de caixa", "Cobrança automática"],
+  },
+  {
+    icon: Users,
+    title: "Gestão de Pacientes",
+    description: "Cadastro completo de pacientes com histórico, documentos, fotos e comunicação integrada.",
+    benefits: ["Cadastro completo", "Histórico detalhado", "Documentos digitais", "Comunicação integrada"],
+  },
+  {
+    icon: BarChart3,
+    title: "Relatórios Gerenciais",
+    description: "Dashboards e relatórios completos para acompanhar o desempenho da sua clínica.",
+    benefits: ["Dashboards em tempo real", "Relatórios customizados", "Análise de performance", "Métricas importantes"],
+  },
+  {
+    icon: Shield,
+    title: "Segurança Total",
+    description: "Máxima segurança dos dados com criptografia, backup automático e conformidade LGPD.",
+    benefits: ["Criptografia avançada", "Backup automático", "Conformidade LGPD", "Auditoria completa"],
+  },
+  {
+    icon: Smartphone,
+    title: "App Mobile",
+    description: "Aplicativo móvel para médicos e pacientes com todas as funcionalidades principais.",
+    benefits: ["App para médicos", "App para pacientes", "Sincronização automática", "Offline disponível"],
+  },
+  {
+    icon: Cloud,
+    title: "Sistema em Nuvem",
+    description: "Acesse de qualquer lugar, a qualquer hora, com sincronização automática e backup seguro.",
+    benefits: ["Acesso em qualquer lugar", "Sincronização automática", "Backup seguro", "Atualizações automáticas"],
+  },
+]
+
 export default function Resources({ segment }: ResourcesProps) {
-  const getResourcesBySpecialty = (specialty: string) => {
-    const baseResources = [
-      {
-        icon: FileText,
-        title: "Prontuário Eletrônico",
-        description: "Sistema completo de prontuário digital com segurança LGPD",
-        features: ["Histórico completo", "Anexos digitais", "Assinatura digital", "Backup automático"],
-      },
-      {
-        icon: Calendar,
-        title: "Agenda Inteligente",
-        description: "Agendamento online 24h com confirmação automática",
-        features: ["Agendamento online", "Confirmação SMS/WhatsApp", "Lista de espera", "Reagendamento"],
-      },
-      {
-        icon: DollarSign,
-        title: "Controle Financeiro",
-        description: "Gestão completa de receitas, despesas e fluxo de caixa",
-        features: ["Controle de caixa", "Relatórios financeiros", "Cobrança automática", "Conciliação bancária"],
-      },
-      {
-        icon: BarChart3,
-        title: "Relatórios Gerenciais",
-        description: "Dashboards e relatórios para tomada de decisão",
-        features: ["Dashboard executivo", "Relatórios customizados", "Indicadores KPI", "Análise de performance"],
-      },
-    ]
-
-    const specialtyResources = {
-      medicina: [
-        {
-          icon: Shield,
-          title: "Auditoria TISS",
-          description: "Sistema integrado para auditoria de convênios médicos",
-          features: ["Validação TISS", "Envio automático", "Controle de glosas", "Relatórios de auditoria"],
-        },
-        {
-          icon: FileText,
-          title: "Prescrições Digitais",
-          description: "Prescrições médicas digitais com validade legal",
-          features: ["Receituário digital", "Banco de medicamentos", "Posologia automática", "Assinatura digital"],
-        },
-      ],
-      odontologia: [
-        {
-          icon: Smartphone,
-          title: "Odontograma Digital",
-          description: "Odontograma completo com histórico de procedimentos",
-          features: ["Odontograma interativo", "Histórico de tratamentos", "Planejamento visual", "Fotos clínicas"],
-        },
-        {
-          icon: Calendar,
-          title: "Agenda Especializada",
-          description: "Agenda otimizada para tratamentos odontológicos",
-          features: ["Blocos de tempo", "Procedimentos múltiplos", "Sala de espera", "Confirmação automática"],
-        },
-      ],
-      psicologia: [
-        {
-          icon: Shield,
-          title: "Segurança Reforçada",
-          description: "Proteção extra para dados sensíveis de pacientes",
-          features: ["Criptografia avançada", "Acesso restrito", "Log de auditoria", "Backup seguro"],
-        },
-        {
-          icon: Clock,
-          title: "Controle de Sessões",
-          description: "Gestão completa de sessões e evolução terapêutica",
-          features: ["Cronômetro de sessão", "Evolução terapêutica", "Plano de tratamento", "Relatórios de progresso"],
-        },
-      ],
-      fisioterapia: [
-        {
-          icon: Users,
-          title: "Evolução de Tratamentos",
-          description: "Acompanhamento detalhado da evolução dos pacientes",
-          features: ["Fichas de evolução", "Exercícios prescritos", "Fotos comparativas", "Gráficos de progresso"],
-        },
-        {
-          icon: Smartphone,
-          title: "App do Paciente",
-          description: "Aplicativo para pacientes acompanharem exercícios",
-          features: ["Exercícios em vídeo", "Lembretes automáticos", "Progresso compartilhado", "Chat com terapeuta"],
-        },
-      ],
-      fonoaudiologia: [
-        {
-          icon: BarChart3,
-          title: "Avaliações Especializadas",
-          description: "Protocolos específicos para avaliação fonoaudiológica",
-          features: ["Protocolos padronizados", "Audiometria digital", "Relatórios técnicos", "Evolução terapêutica"],
-        },
-        {
-          icon: FileText,
-          title: "Planos Terapêuticos",
-          description: "Criação e acompanhamento de planos de tratamento",
-          features: [
-            "Objetivos terapêuticos",
-            "Atividades personalizadas",
-            "Acompanhamento familiar",
-            "Relatórios de alta",
-          ],
-        },
-      ],
-    }
-
-    return [...baseResources, ...(specialtyResources[specialty as keyof typeof specialtyResources] || [])]
-  }
-
-  const resources = getResourcesBySpecialty(segment.specialty)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedFeature, setSelectedFeature] = useState(0)
 
   return (
-    <section className="py-20 bg-white">
+    <section id="recursos" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Recursos Especializados para {segment.name}</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Recursos Completos para {segment.name}</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Tudo que você precisa para modernizar e otimizar a gestão da sua clínica ou consultório
           </p>
         </div>
 
-        {/* Resources Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {resources.map((resource, index) => {
-            const IconComponent = resource.icon
-            return (
+        {/* Features Grid */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
+          {/* Features List */}
+          <div className="space-y-4">
+            {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-gray-200 group"
+                className={`p-6 rounded-xl cursor-pointer transition-all duration-300 ${
+                  selectedFeature === index
+                    ? "bg-white shadow-lg border-2 border-blue-200"
+                    : "bg-white hover:shadow-md border border-gray-200"
+                }`}
+                onClick={() => setSelectedFeature(index)}
               >
-                {/* Icon */}
-                <div
-                  className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
-                  style={{ backgroundColor: `${segment.color}15` }}
-                >
-                  <IconComponent className="h-8 w-8" style={{ color: segment.color }} />
+                <div className="flex items-start space-x-4">
+                  <div className="p-3 rounded-lg flex-shrink-0" style={{ backgroundColor: `${segment.color}20` }}>
+                    <feature.icon className="h-6 w-6" style={{ color: segment.color }} />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                    <p className="text-gray-600 mb-3">{feature.description}</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {feature.benefits.map((benefit, benefitIndex) => (
+                        <div key={benefitIndex} className="flex items-center text-sm text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                          {benefit}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Feature Detail */}
+          <div className="lg:sticky lg:top-8">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+              {/* Feature Header */}
+              <div className="p-6 text-white" style={{ backgroundColor: segment.color }}>
+                <div className="flex items-center space-x-3 mb-4">
+                  {(() => {
+                    const FeatureIcon = features[selectedFeature].icon
+                    return <FeatureIcon className="h-8 w-8" />
+                  })()}
+                  <h3 className="text-2xl font-bold">{features[selectedFeature].title}</h3>
+                </div>
+                <p className="text-blue-100">{features[selectedFeature].description}</p>
+              </div>
+
+              {/* Feature Content */}
+              <div className="p-6">
+                <h4 className="font-semibold text-gray-900 mb-4">Principais Benefícios:</h4>
+                <div className="space-y-3 mb-6">
+                  {features[selectedFeature].benefits.map((benefit, index) => (
+                    <div key={index} className="flex items-center">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                      <span className="text-gray-700">{benefit}</span>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{resource.title}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">{resource.description}</p>
-
-                {/* Features */}
-                <ul className="space-y-2">
-                  {resource.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-sm text-gray-700">
-                      <div
-                        className="w-2 h-2 rounded-full mr-3 flex-shrink-0"
-                        style={{ backgroundColor: segment.color }}
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                {/* CTA */}
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-full flex items-center justify-center px-6 py-3 text-white font-semibold rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                  style={{ backgroundColor: segment.color }}
+                >
+                  Ver Este Recurso em Ação
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </button>
               </div>
-            )
-          })}
+            </div>
+          </div>
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-gray-50 rounded-2xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Pronto para transformar sua clínica?</h3>
+        <div className="text-center">
+          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Pronto para Transformar sua Clínica?</h3>
             <p className="text-gray-600 mb-6">
-              Agende uma demonstração personalizada e veja como o Base Clínicas pode otimizar sua rotina
+              Agende uma demonstração personalizada e veja como o Base Clínicas pode revolucionar sua prática médica
             </p>
             <button
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center px-8 py-4 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
               style={{ backgroundColor: segment.color }}
-              onClick={() => {
-                // Scroll to hero section to open modal
-                window.scrollTo({ top: 0, behavior: "smooth" })
-                // Trigger modal open event
-                setTimeout(() => {
-                  const ctaButton = document.querySelector("[data-cta-button]") as HTMLButtonElement
-                  if (ctaButton) ctaButton.click()
-                }, 500)
-              }}
             >
-              Solicitar Demonstração Gratuita
+              Agendar Demonstração Gratuita
+              <ArrowRight className="h-5 w-5 ml-2" />
             </button>
           </div>
         </div>
       </div>
+
+      {/* CTA Modal */}
+      <CtaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} segment={segment} />
     </section>
   )
 }
