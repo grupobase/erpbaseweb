@@ -1,11 +1,19 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Menu, X, Phone, Mail } from "lucide-react"
-import Image from "next/image"
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { handleAnchorClick } = useSmoothScroll()
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    handleAnchorClick(e, href)
+    setIsMenuOpen(false) // Close mobile menu after clicking
+  }
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -14,26 +22,31 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Image
-                src="/logo-base-saude.svg"
-                alt="Base Saúde - Sistema de Gestão para Clínicas"
-                width={180}
-                height={40}
-                className="h-8 w-auto sm:h-10"
-                priority
-              />
+              <h1 className="text-2xl font-bold text-blue-600">Base Clínicas</h1>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#recursos" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <a
+              href="#recursos"
+              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              onClick={(e) => handleNavClick(e, "#recursos")}
+            >
               Recursos
             </a>
-            <a href="#depoimentos" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <a
+              href="#depoimentos"
+              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              onClick={(e) => handleNavClick(e, "#depoimentos")}
+            >
               Depoimentos
             </a>
-            <a href="#contato" className="text-gray-700 hover:text-blue-600 transition-colors">
+            <a
+              href="#contato"
+              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
+              onClick={(e) => handleNavClick(e, "#contato")}
+            >
               Contato
             </a>
           </nav>
@@ -54,7 +67,8 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 transition-colors duration-200"
+              aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -67,22 +81,22 @@ export default function Header() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
               <a
                 href="#recursos"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+                onClick={(e) => handleNavClick(e, "#recursos")}
               >
                 Recursos
               </a>
               <a
                 href="#depoimentos"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+                onClick={(e) => handleNavClick(e, "#depoimentos")}
               >
                 Depoimentos
               </a>
               <a
                 href="#contato"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
+                onClick={(e) => handleNavClick(e, "#contato")}
               >
                 Contato
               </a>

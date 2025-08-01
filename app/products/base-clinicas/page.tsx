@@ -4,6 +4,7 @@ import Header from "@/components/Header"
 import Hero from "@/components/Hero"
 import Resources from "@/components/Resources"
 import Testimonials from "@/components/Testimonials"
+import Contact from "@/components/Contact"
 import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
@@ -27,13 +28,7 @@ export const metadata: Metadata = {
   },
 }
 
-interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default function BaseClinicasPage({ searchParams }: PageProps) {
-  const specialty = typeof searchParams.specialty === "string" ? searchParams.specialty : "medicina"
-
+export default function BaseClinicasPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Google Tag Manager */}
@@ -55,7 +50,7 @@ export default function BaseClinicasPage({ searchParams }: PageProps) {
       {/* Hero Section */}
       <main>
         <Suspense fallback={<div>Carregando...</div>}>
-          <Hero specialty={specialty} />
+          <Hero />
         </Suspense>
 
         {/* Resources Section */}
@@ -63,6 +58,9 @@ export default function BaseClinicasPage({ searchParams }: PageProps) {
 
         {/* Testimonials Section */}
         <Testimonials />
+
+        {/* Contact Section */}
+        <Contact />
       </main>
 
       {/* Footer */}
