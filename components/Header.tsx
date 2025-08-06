@@ -1,19 +1,10 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
-import { Menu, X, Phone, Mail } from "lucide-react"
-import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
+import { Menu, X, Phone, Mail } from 'lucide-react'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { handleAnchorClick } = useSmoothScroll()
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    handleAnchorClick(e, href)
-    setIsMenuOpen(false) // Close mobile menu after clicking
-  }
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -28,25 +19,13 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a
-              href="#recursos"
-              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
-              onClick={(e) => handleNavClick(e, "#recursos")}
-            >
+            <a href="#recursos" className="text-gray-700 hover:text-blue-600 transition-colors">
               Recursos
             </a>
-            <a
-              href="#depoimentos"
-              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
-              onClick={(e) => handleNavClick(e, "#depoimentos")}
-            >
+            <a href="#depoimentos" className="text-gray-700 hover:text-blue-600 transition-colors">
               Depoimentos
             </a>
-            <a
-              href="#contato"
-              className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
-              onClick={(e) => handleNavClick(e, "#contato")}
-            >
+            <a href="#contato" className="text-gray-700 hover:text-blue-600 transition-colors">
               Contato
             </a>
           </nav>
@@ -67,8 +46,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600 transition-colors duration-200"
-              aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -81,22 +59,22 @@ export default function Header() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
               <a
                 href="#recursos"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
-                onClick={(e) => handleNavClick(e, "#recursos")}
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Recursos
               </a>
               <a
                 href="#depoimentos"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
-                onClick={(e) => handleNavClick(e, "#depoimentos")}
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Depoimentos
               </a>
               <a
                 href="#contato"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors duration-200"
-                onClick={(e) => handleNavClick(e, "#contato")}
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Contato
               </a>
