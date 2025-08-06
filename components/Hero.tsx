@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Play, CheckCircle, Users, Clock, Shield } from "lucide-react"
+import { Play, CheckCircle, Users, Clock, Shield } from 'lucide-react'
 import CtaModal from "./CtaModal"
 
 interface HeroProps {
@@ -22,6 +22,90 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
         "Agendamento Online Inteligente",
         "Faturamento Automatizado",
         "Telemedicina Integrada",
+      ],
+    },
+    web: {
+      title: "Desenvolvimento Web e Soluções Digitais",
+      subtitle: "Transforme sua presença digital",
+      description:
+        "Sites responsivos, e-commerce, SEO otimizado e analytics em uma plataforma completa para sua presença digital.",
+      benefits: [
+        "Sites Responsivos",
+        "E-commerce Completo",
+        "SEO Otimizado",
+        "Analytics Avançado",
+      ],
+    },
+    agro: {
+      title: "Sistema de Gestão para Agronegócio",
+      subtitle: "Tecnologia para o campo",
+      description:
+        "Controle de safra, gestão pecuária, financeiro rural e relatórios especializados para propriedades rurais.",
+      benefits: [
+        "Controle de Safra",
+        "Gestão Pecuária",
+        "Financeiro Rural",
+        "Relatórios Especializados",
+      ],
+    },
+    food: {
+      title: "Gestão para Restaurantes",
+      subtitle: "Sabor e tecnologia unidos",
+      description:
+        "Cardápio digital, delivery, controle de estoque e PDV integrado para estabelecimentos alimentícios.",
+      benefits: [
+        "Cardápio Digital",
+        "Sistema de Delivery",
+        "Controle de Estoque",
+        "PDV Integrado",
+      ],
+    },
+    saloes: {
+      title: "Sistema para Salões e Barbearias",
+      subtitle: "Beleza e gestão em harmonia",
+      description:
+        "Agendamento online, controle de serviços, comissões e programa de fidelidade para salões de beleza.",
+      benefits: [
+        "Agendamento Online",
+        "Controle de Serviços",
+        "Gestão de Comissões",
+        "Programa de Fidelidade",
+      ],
+    },
+    pet: {
+      title: "Gestão Veterinária e Pet Shops",
+      subtitle: "Cuidando dos nossos amigos",
+      description:
+        "Prontuário animal, controle de vacinas, cirurgias e gestão completa para clínicas veterinárias e pet shops.",
+      benefits: [
+        "Prontuário Animal",
+        "Controle de Vacinas",
+        "Gestão de Cirurgias",
+        "Pet Shop Integrado",
+      ],
+    },
+    shop: {
+      title: "E-commerce Completo",
+      subtitle: "Venda online sem limites",
+      description:
+        "Loja virtual, marketplace, pagamentos integrados e logística para seu e-commerce de sucesso.",
+      benefits: [
+        "Loja Virtual",
+        "Marketplace",
+        "Pagamentos Integrados",
+        "Gestão de Logística",
+      ],
+    },
+    incorporacao: {
+      title: "Gestão de Incorporação e Construção",
+      subtitle: "Construindo o futuro",
+      description:
+        "Gestão de obras, vendas, financeiro e documentos para projetos imobiliários e construção civil.",
+      benefits: [
+        "Gestão de Obras",
+        "Controle de Vendas",
+        "Financeiro Especializado",
+        "Gestão de Documentos",
       ],
     },
     odontologia: {
@@ -70,7 +154,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-6">
               <Shield className="h-4 w-4 mr-2" />
-              Certificado pelo CFM e SBIS
+              Certificado e Seguro
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">{content.title}</h1>
@@ -112,9 +196,9 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
               <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                   <Users className="h-6 w-6 text-blue-600 mr-2" />
-                  <span className="text-2xl font-bold text-gray-900">5000+</span>
+                  <span className="text-2xl font-bold text-gray-900">10000+</span>
                 </div>
-                <p className="text-sm text-gray-600">Profissionais Ativos</p>
+                <p className="text-sm text-gray-600">Clientes Ativos</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
@@ -139,8 +223,8 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl transform -rotate-6"></div>
               <div className="relative bg-white rounded-xl p-6">
                 <img
-                  src="/placeholder.svg?height=400&width=600&text=Dashboard+Base+Clínicas"
-                  alt="Dashboard Base Clínicas"
+                  src={`/placeholder.svg?height=400&width=600&text=Dashboard+Base+${specialty.charAt(0).toUpperCase() + specialty.slice(1)}`}
+                  alt={`Dashboard Base ${specialty.charAt(0).toUpperCase() + specialty.slice(1)}`}
                   className="w-full h-auto rounded-lg shadow-lg"
                 />
                 <div className="absolute inset-0 bg-blue-600 bg-opacity-10 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
