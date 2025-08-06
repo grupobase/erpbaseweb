@@ -85,41 +85,52 @@ export async function POST(request: NextRequest) {
     // Send webhook if configured
     if (process.env.LEAD_WEBHOOK_URL) {
       try {
-        // Validate webhook URL before using it
         const webhookUrl = process.env.LEAD_WEBHOOK_URL.trim()
-        if (!webhookUrl) {
-          console.warn("LEAD_WEBHOOK_URL is empty")
+        
+        // Check if URL is not empty and is a valid URL
+        if (webhookUrl && webhookUrl.length > 0) {
+          try {
+            // Validate URL format
+            const url = new URL(webhookUrl)
+            
+            // Only proceed if it's http or https
+            if (url.protocol === 'http:' || url.protocol === 'https:') {
+              await fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  event: "new_lead",
+                  lead: {
+                    id: lead.id,
+                    name: lead.name,
+                    email: lead.email,
+                    phone: lead.phone,
+                    specialty: lead.specialty,
+                    clinic_name: lead.clinic_name,
+                    city: lead.city,
+                    state: lead.state,
+                    created_at: lead.created_at,
+                  },
+                  utm: {
+                    source: validatedData.utm_source,
+                    medium: validatedData.utm_medium,
+                    campaign: validatedData.utm_campaign,
+                    content: validatedData.utm_content,
+                    term: validatedData.utm_term,
+                  },
+                }),
+              })
+              console.log("Webhook sent successfully to:", webhookUrl)
+            } else {
+              console.warn("Invalid webhook URL protocol. Only http and https are supported:", webhookUrl)
+            }
+          } catch (urlError) {
+            console.warn("Invalid webhook URL format:", webhookUrl, urlError)
+          }
         } else {
-          // Test if URL is valid
-          new URL(webhookUrl)
-
-          await fetch(webhookUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              event: "new_lead",
-              lead: {
-                id: lead.id,
-                name: lead.name,
-                email: lead.email,
-                phone: lead.phone,
-                specialty: lead.specialty,
-                clinic_name: lead.clinic_name,
-                city: lead.city,
-                state: lead.state,
-                created_at: lead.created_at,
-              },
-              utm: {
-                source: validatedData.utm_source,
-                medium: validatedData.utm_medium,
-                campaign: validatedData.utm_campaign,
-                content: validatedData.utm_content,
-                term: validatedData.utm_term,
-              },
-            }),
-          })
+          console.warn("LEAD_WEBHOOK_URL is empty or invalid")
         }
       } catch (webhookError) {
         console.error("Webhook error:", webhookError)
