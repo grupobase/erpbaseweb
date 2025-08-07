@@ -11,8 +11,21 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Comércio - Sistema de Gestão Comercial",
   description:
-    "PDV integrado, controle de estoque, vendas e relatórios. Sistema completo para estabelecimentos comerciais.",
-  keywords: "PDV, ponto de venda, controle estoque, vendas, comércio, gestão comercial",
+    "PDV integrado, controle de estoque, vendas e relatórios para estabelecimentos comerciais modernos.",
+  keywords: "sistema comercial, PDV, controle estoque, vendas, gestão comercial, relatórios",
+  openGraph: {
+    title: "Base® Comércio - Sistema de Gestão Comercial",
+    description:
+      "Transforme seu estabelecimento comercial com tecnologia de ponta e gestão inteligente.",
+    images: ["/images/base-comercio-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Comércio - Sistema de Gestão Comercial",
+    description: "PDV integrado e gestão completa para seu comércio.",
+    images: ["/images/base-comercio-og.jpg"],
+  },
 }
 
 export default function BaseComercioPage() {
@@ -45,6 +58,41 @@ export default function BaseComercioPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Comércio",
+            description:
+              "Sistema de gestão comercial com PDV integrado e controle de estoque.",
+            url: "https://grupobase.com.br/products/base-comercio",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "PDV Integrado",
+              "Controle de Estoque",
+              "Gestão de Vendas",
+              "Relatórios Avançados",
+              "Controle Financeiro",
+              "Gestão de Clientes",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

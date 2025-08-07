@@ -11,8 +11,21 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Agro - Sistema de Gestão para Agronegócio",
   description:
-    "Controle de safra, gestão pecuária, financeiro rural e relatórios. Sistema completo para propriedades rurais.",
-  keywords: "agronegócio, gestão rural, controle safra, pecuária, financeiro rural, agricultura",
+    "Controle de safra, gestão pecuária, financeiro rural e relatórios especializados para propriedades rurais.",
+  keywords: "gestão agro, controle safra, pecuária, financeiro rural, agronegócio",
+  openGraph: {
+    title: "Base® Agro - Sistema de Gestão para Agronegócio",
+    description:
+      "Tecnologia de ponta para o agronegócio moderno e sustentável.",
+    images: ["/images/base-agro-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Agro - Sistema de Gestão para Agronegócio",
+    description: "Gestão completa para propriedades rurais e agronegócio.",
+    images: ["/images/base-agro-og.jpg"],
+  },
 }
 
 export default function BaseAgroPage() {
@@ -45,6 +58,41 @@ export default function BaseAgroPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Agro",
+            description:
+              "Sistema de gestão para agronegócio com controle de safra e gestão pecuária.",
+            url: "https://grupobase.com.br/products/base-agro",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Controle de Safra",
+              "Gestão Pecuária",
+              "Financeiro Rural",
+              "Relatórios Especializados",
+              "Controle de Insumos",
+              "Gestão de Propriedades",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

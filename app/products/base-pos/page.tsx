@@ -9,13 +9,26 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base® POS e Tecn - Soluções Tecnológicas e PDV",
+  title: "Base® POS e Tecn - Soluções Tecnológicas Avançadas",
   description:
-    "PDV avançado, pagamentos, integração e relatórios. Soluções tecnológicas completas.",
-  keywords: "PDV avançado, pagamentos, integração, relatórios, soluções tecnológicas",
+    "PDV avançado, pagamentos integrados, relatórios e soluções tecnológicas completas para seu negócio.",
+  keywords: "PDV avançado, pagamentos, soluções tecnológicas, relatórios, integração",
+  openGraph: {
+    title: "Base® POS e Tecn - Soluções Tecnológicas Avançadas",
+    description:
+      "Tecnologia avançada para negócios modernos e conectados.",
+    images: ["/images/base-pos-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® POS e Tecn - Soluções Tecnológicas Avançadas",
+    description: "PDV avançado e soluções tecnológicas completas.",
+    images: ["/images/base-pos-og.jpg"],
+  },
 }
 
-export default function BasePOSPage() {
+export default function BasePosPage() {
   return (
     <div className="min-h-screen bg-white">
       <script
@@ -45,6 +58,41 @@ export default function BasePOSPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® POS e Tecn",
+            description:
+              "Soluções tecnológicas avançadas com PDV e pagamentos integrados.",
+            url: "https://grupobase.com.br/products/base-pos",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "PDV Avançado",
+              "Pagamentos Integrados",
+              "Relatórios Inteligentes",
+              "Integração Completa",
+              "Soluções Personalizadas",
+              "Suporte Técnico",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

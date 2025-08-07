@@ -11,8 +11,21 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Indústria - Sistema de Gestão Industrial",
   description:
-    "Controle de produção, qualidade, manutenção e custos. Sistema completo para indústrias.",
+    "Controle de produção, qualidade, manutenção e custos para indústrias modernas e eficientes.",
   keywords: "gestão industrial, controle produção, qualidade, manutenção, custos industriais",
+  openGraph: {
+    title: "Base® Indústria - Sistema de Gestão Industrial",
+    description:
+      "Produção inteligente para indústrias do futuro.",
+    images: ["/images/base-industria-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Indústria - Sistema de Gestão Industrial",
+    description: "Gestão completa para indústrias modernas.",
+    images: ["/images/base-industria-og.jpg"],
+  },
 }
 
 export default function BaseIndustriaPage() {
@@ -45,6 +58,41 @@ export default function BaseIndustriaPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Indústria",
+            description:
+              "Sistema de gestão industrial com controle de produção e qualidade.",
+            url: "https://grupobase.com.br/products/base-industria",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Controle de Produção",
+              "Gestão de Qualidade",
+              "Manutenção Preventiva",
+              "Controle de Custos",
+              "Relatórios Industriais",
+              "Gestão de Recursos",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

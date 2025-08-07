@@ -9,10 +9,23 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base® Salões - Sistema de Gestão para Salões de Beleza",
+  title: "Base® Salões - Sistema para Salões de Beleza",
   description:
-    "Agendamento online, controle de serviços, comissões e fidelidade. Sistema especializado para salões.",
-  keywords: "salão beleza, agendamento online, comissões, fidelidade, gestão beleza",
+    "Agendamento online, controle de serviços, comissões e programa de fidelidade para salões de beleza.",
+  keywords: "gestão salão, agendamento online, comissões, fidelidade, salão beleza",
+  openGraph: {
+    title: "Base® Salões - Sistema para Salões de Beleza",
+    description:
+      "Beleza e gestão em harmonia para o sucesso do seu salão.",
+    images: ["/images/base-saloes-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Salões - Sistema para Salões de Beleza",
+    description: "Gestão completa para salões de beleza modernos.",
+    images: ["/images/base-saloes-og.jpg"],
+  },
 }
 
 export default function BaseSaloesPage() {
@@ -45,6 +58,41 @@ export default function BaseSaloesPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Salões",
+            description:
+              "Sistema de gestão para salões de beleza com agendamento online e controle de comissões.",
+            url: "https://grupobase.com.br/products/base-saloes",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Agendamento Online",
+              "Controle de Serviços",
+              "Gestão de Comissões",
+              "Programa de Fidelidade",
+              "Controle de Estoque",
+              "Relatórios Financeiros",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

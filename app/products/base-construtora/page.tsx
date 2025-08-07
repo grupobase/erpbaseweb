@@ -11,11 +11,24 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Construtora e Incorporações - Gestão de Projetos Imobiliários",
   description:
-    "Gestão de obras, vendas, financeiro e documentos. Sistema completo para incorporação e construção.",
-  keywords: "incorporação, construção civil, gestão obras, vendas imobiliárias, financeiro, documentos",
+    "Gestão de obras, vendas, financeiro e documentos para projetos imobiliários e construção civil.",
+  keywords: "gestão construtora, incorporação, obras, projetos imobiliários, construção civil",
+  openGraph: {
+    title: "Base® Construtora e Incorporações - Gestão de Projetos Imobiliários",
+    description:
+      "Construindo o futuro com gestão inteligente e integrada.",
+    images: ["/images/base-construtora-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Construtora e Incorporações - Gestão de Projetos Imobiliários",
+    description: "Gestão completa para construtoras e incorporadoras.",
+    images: ["/images/base-construtora-og.jpg"],
+  },
 }
 
-export default function BaseConstrutora() {
+export default function BaseConstrutoraPage() {
   return (
     <div className="min-h-screen bg-white">
       <script
@@ -45,6 +58,41 @@ export default function BaseConstrutora() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Construtora e Incorporações",
+            description:
+              "Sistema de gestão para construtoras com controle de obras e vendas.",
+            url: "https://grupobase.com.br/products/base-construtora",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Gestão de Obras",
+              "Controle de Vendas",
+              "Financeiro Especializado",
+              "Gestão de Documentos",
+              "Cronograma de Obras",
+              "Relatórios Gerenciais",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

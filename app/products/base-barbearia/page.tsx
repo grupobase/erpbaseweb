@@ -9,10 +9,23 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base® Barbearia - Gestão Especializada para Barbearias",
+  title: "Base® Barbearia - Gestão para Barbearias Modernas",
   description:
-    "Agendamento, produtos, comissões e marketing. Sistema especializado para barbearias modernas.",
-  keywords: "barbearia, agendamento, produtos, comissões, marketing, gestão barbearia",
+    "Agendamento, produtos, comissões e marketing especializado para barbearias modernas.",
+  keywords: "gestão barbearia, agendamento barbearia, produtos masculinos, comissões",
+  openGraph: {
+    title: "Base® Barbearia - Gestão para Barbearias Modernas",
+    description:
+      "Estilo e gestão moderna para barbearias de sucesso.",
+    images: ["/images/base-barbearia-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Barbearia - Gestão para Barbearias Modernas",
+    description: "Gestão especializada para barbearias modernas.",
+    images: ["/images/base-barbearia-og.jpg"],
+  },
 }
 
 export default function BaseBarbeariaPage() {
@@ -45,6 +58,41 @@ export default function BaseBarbeariaPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Barbearia",
+            description:
+              "Sistema de gestão especializado para barbearias modernas com agendamento e marketing.",
+            url: "https://grupobase.com.br/products/base-barbearia",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Agendamento Especializado",
+              "Gestão de Produtos",
+              "Controle de Comissões",
+              "Marketing Digital",
+              "Controle Financeiro",
+              "Fidelização de Clientes",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

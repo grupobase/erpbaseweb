@@ -11,8 +11,21 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Pet - Gestão Veterinária e Pet Shops",
   description:
-    "Prontuário animal, vacinas, cirurgias e pet shop. Sistema completo para clínicas veterinárias.",
-  keywords: "veterinária, pet shop, prontuário animal, vacinas, cirurgias, gestão veterinária",
+    "Prontuário animal, controle de vacinas, cirurgias e gestão completa para clínicas veterinárias e pet shops.",
+  keywords: "gestão veterinária, prontuário animal, vacinas, cirurgias, pet shop",
+  openGraph: {
+    title: "Base® Pet - Gestão Veterinária e Pet Shops",
+    description:
+      "Cuidando dos nossos amigos com tecnologia e carinho.",
+    images: ["/images/base-pet-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Pet - Gestão Veterinária e Pet Shops",
+    description: "Gestão completa para clínicas veterinárias e pet shops.",
+    images: ["/images/base-pet-og.jpg"],
+  },
 }
 
 export default function BasePetPage() {
@@ -45,6 +58,41 @@ export default function BasePetPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Pet",
+            description:
+              "Sistema de gestão veterinária com prontuário animal e controle de vacinas.",
+            url: "https://grupobase.com.br/products/base-pet",
+            applicationCategory: "HealthApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Prontuário Animal",
+              "Controle de Vacinas",
+              "Gestão de Cirurgias",
+              "Pet Shop Integrado",
+              "Agendamento",
+              "Controle Financeiro",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

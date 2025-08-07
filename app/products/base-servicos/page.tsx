@@ -9,10 +9,23 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base® Serviços - Gestão para Empresas de Serviços",
+  title: "Base® Serviços - Gestão para Prestadoras de Serviços",
   description:
-    "Ordem de serviço, agendamento, contratos e financeiro. Sistema completo para prestadoras de serviços.",
-  keywords: "ordem serviço, agendamento, contratos, financeiro, prestação serviços",
+    "Ordem de serviço, agendamento, contratos e financeiro em uma plataforma especializada para empresas de serviços.",
+  keywords: "gestão serviços, ordem serviço, agendamento, contratos, empresas serviços",
+  openGraph: {
+    title: "Base® Serviços - Gestão para Prestadoras de Serviços",
+    description:
+      "Otimize sua empresa de serviços com gestão completa e integrada.",
+    images: ["/images/base-servicos-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Serviços - Gestão para Prestadoras de Serviços",
+    description: "Gestão completa para empresas prestadoras de serviços.",
+    images: ["/images/base-servicos-og.jpg"],
+  },
 }
 
 export default function BaseServicosPage() {
@@ -45,6 +58,41 @@ export default function BaseServicosPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Serviços",
+            description:
+              "Gestão completa para empresas prestadoras de serviços com ordem de serviço e agendamento.",
+            url: "https://grupobase.com.br/products/base-servicos",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Ordem de Serviço",
+              "Agendamento Inteligente",
+              "Gestão de Contratos",
+              "Controle Financeiro",
+              "Relatórios Gerenciais",
+              "CRM Integrado",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

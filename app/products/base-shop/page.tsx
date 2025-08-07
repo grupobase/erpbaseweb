@@ -11,8 +11,21 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Shop - E-commerce Completo",
   description:
-    "Loja virtual, marketplace, pagamentos e logística. Plataforma completa de e-commerce.",
-  keywords: "e-commerce, loja virtual, marketplace, pagamentos, logística, vendas online",
+    "Loja virtual, marketplace, pagamentos integrados e logística para seu e-commerce de sucesso.",
+  keywords: "e-commerce, loja virtual, marketplace, pagamentos, logística",
+  openGraph: {
+    title: "Base® Shop - E-commerce Completo",
+    description:
+      "Venda online sem limites com nossa plataforma completa.",
+    images: ["/images/base-shop-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Shop - E-commerce Completo",
+    description: "Plataforma completa para e-commerce de sucesso.",
+    images: ["/images/base-shop-og.jpg"],
+  },
 }
 
 export default function BaseShopPage() {
@@ -45,6 +58,41 @@ export default function BaseShopPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Shop",
+            description:
+              "Plataforma de e-commerce completa com loja virtual e marketplace integrado.",
+            url: "https://grupobase.com.br/products/base-shop",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Loja Virtual",
+              "Marketplace",
+              "Pagamentos Integrados",
+              "Gestão de Logística",
+              "Controle de Estoque",
+              "Analytics Avançado",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

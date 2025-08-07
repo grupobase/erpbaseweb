@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Building2, Stethoscope, Hospital, ShoppingCart, Wrench, Wheat, UtensilsCrossed, Scissors, Zap, Heart, ShoppingBag, Factory, Home, CreditCard, ArrowRight, Users, TrendingUp, Shield } from 'lucide-react'
+import { Building2, Stethoscope, Cross, ShoppingCart, Wrench, Wheat, UtensilsCrossed, Scissors, Zap, Heart, ShoppingBag, Factory, Home, CreditCard, ArrowRight, Users, TrendingUp, Shield } from 'lucide-react'
 
 export default function HomePage() {
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null)
@@ -23,7 +23,7 @@ export default function HomePage() {
       id: "base-hospital",
       name: "Base® Hospital",
       description: "Gestão hospitalar completa com prontuário eletrônico integrado",
-      icon: Hospital,
+      icon: Cross,
       route: "/products/base-hospital",
       gradient: "from-[#12C8C8] to-[#26F7FD]",
       features: ["Gestão de Leitos", "Centro Cirúrgico", "Farmácia Hospitalar", "Faturamento"],

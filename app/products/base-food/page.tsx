@@ -11,8 +11,21 @@ import TestForm from "@/components/TestForm"
 export const metadata: Metadata = {
   title: "Base® Food - Gestão para Restaurantes",
   description:
-    "Cardápio digital, delivery, controle de estoque e PDV. Sistema completo para estabelecimentos alimentícios.",
-  keywords: "restaurante, delivery, cardápio digital, PDV, controle estoque, gestão alimentícia",
+    "Cardápio digital, delivery, controle de estoque e PDV integrado para estabelecimentos alimentícios.",
+  keywords: "gestão restaurante, cardápio digital, delivery, controle estoque, PDV food",
+  openGraph: {
+    title: "Base® Food - Gestão para Restaurantes",
+    description:
+      "Sabor e tecnologia unidos para o sucesso do seu estabelecimento alimentício.",
+    images: ["/images/base-food-og.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Base® Food - Gestão para Restaurantes",
+    description: "Gestão completa para restaurantes e estabelecimentos alimentícios.",
+    images: ["/images/base-food-og.jpg"],
+  },
 }
 
 export default function BaseFoodPage() {
@@ -45,6 +58,41 @@ export default function BaseFoodPage() {
       <Footer />
 
       {process.env.NODE_ENV === "development" && <TestForm />}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Base® Food",
+            description:
+              "Sistema de gestão para restaurantes com cardápio digital e delivery integrado.",
+            url: "https://grupobase.com.br/products/base-food",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "BRL",
+              description: "Demonstração gratuita disponível",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "Grupo Base®",
+              url: "https://grupobase.com.br",
+            },
+            featureList: [
+              "Cardápio Digital",
+              "Sistema de Delivery",
+              "Controle de Estoque",
+              "PDV Integrado",
+              "Gestão de Mesas",
+              "Relatórios de Vendas",
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }
