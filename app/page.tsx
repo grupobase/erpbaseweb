@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Building2, Stethoscope, Globe, Wheat, UtensilsCrossed, Scissors, Heart, ShoppingBag, Home, ArrowRight, Users, TrendingUp, Shield, Zap } from 'lucide-react'
+import { Building2, Stethoscope, Hospital, ShoppingCart, Wrench, Wheat, UtensilsCrossed, Scissors, Zap, Heart, ShoppingBag, Factory, Home, CreditCard, ArrowRight, Users, TrendingUp, Shield } from 'lucide-react'
 
 export default function HomePage() {
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null)
@@ -11,91 +11,141 @@ export default function HomePage() {
   const products = [
     {
       id: "base-clinicas",
-      name: "Base Clínicas",
+      name: "Base® Clínica e Consultórios",
       description: "Sistema completo para gestão de clínicas e consultórios médicos",
       icon: Stethoscope,
       route: "/products/base-clinicas",
-      color: "from-blue-500 to-blue-600",
+      gradient: "from-[#12C8C8] to-[#26F7FD]",
       features: ["Prontuário Eletrônico", "Agenda Online", "Telemedicina", "Faturamento TISS"],
       stats: "5000+ profissionais"
     },
     {
-      id: "base-web",
-      name: "Base Web",
-      description: "Plataforma de desenvolvimento web e soluções digitais",
-      icon: Globe,
-      route: "/products/base-web",
-      color: "from-purple-500 to-purple-600",
-      features: ["Sites Responsivos", "E-commerce", "SEO Otimizado", "Analytics"],
-      stats: "1000+ sites criados"
+      id: "base-hospital",
+      name: "Base® Hospital",
+      description: "Gestão hospitalar completa com prontuário eletrônico integrado",
+      icon: Hospital,
+      route: "/products/base-hospital",
+      gradient: "from-[#12C8C8] to-[#26F7FD]",
+      features: ["Gestão de Leitos", "Centro Cirúrgico", "Farmácia Hospitalar", "Faturamento"],
+      stats: "200+ hospitais"
+    },
+    {
+      id: "base-comercio",
+      name: "Base® Comércio",
+      description: "Sistema de gestão para estabelecimentos comerciais",
+      icon: ShoppingCart,
+      route: "/products/base-comercio",
+      gradient: "from-[#305CDE] to-[#000080]",
+      features: ["PDV Integrado", "Controle de Estoque", "Vendas", "Relatórios"],
+      stats: "3000+ lojas"
+    },
+    {
+      id: "base-servicos",
+      name: "Base® Serviços",
+      description: "Gestão completa para empresas prestadoras de serviços",
+      icon: Wrench,
+      route: "/products/base-servicos",
+      gradient: "from-[#305CDE] to-[#000080]",
+      features: ["Ordem de Serviço", "Agendamento", "Contratos", "Financeiro"],
+      stats: "1500+ empresas"
     },
     {
       id: "base-agro",
-      name: "Base Agro",
+      name: "Base® Agro",
       description: "Sistema de gestão para agronegócio e propriedades rurais",
       icon: Wheat,
       route: "/products/base-agro",
-      color: "from-green-500 to-green-600",
+      gradient: "from-[#12C8C8] to-[#6B8E23]",
       features: ["Controle de Safra", "Gestão Pecuária", "Financeiro Rural", "Relatórios"],
       stats: "500+ propriedades"
     },
     {
       id: "base-food",
-      name: "Base Food",
+      name: "Base® Food",
       description: "Gestão completa para restaurantes e estabelecimentos alimentícios",
       icon: UtensilsCrossed,
       route: "/products/base-food",
-      color: "from-orange-500 to-orange-600",
+      gradient: "from-[#EC2D01] via-[#FF91A4] to-[#722F37]",
       features: ["Cardápio Digital", "Delivery", "Controle de Estoque", "PDV"],
       stats: "800+ restaurantes"
     },
     {
       id: "base-saloes",
-      name: "Base Salões e Barbearias",
-      description: "Sistema especializado para salões de beleza e barbearias",
+      name: "Base® Salões",
+      description: "Sistema especializado para salões de beleza",
       icon: Scissors,
       route: "/products/base-saloes",
-      color: "from-pink-500 to-pink-600",
+      gradient: "from-[#FF91A4] to-[#FF1493]",
       features: ["Agendamento Online", "Controle de Serviços", "Comissões", "Fidelidade"],
       stats: "1200+ salões"
     },
     {
+      id: "base-barbearia",
+      name: "Base® Barbearia",
+      description: "Gestão especializada para barbearias modernas",
+      icon: Zap,
+      route: "/products/base-barbearia",
+      gradient: "from-[#722F37] to-[#800080]",
+      features: ["Agendamento", "Produtos", "Comissões", "Marketing"],
+      stats: "600+ barbearias"
+    },
+    {
       id: "base-pet",
-      name: "Base Pet",
+      name: "Base® Pet",
       description: "Gestão veterinária e pet shops com prontuário animal",
       icon: Heart,
       route: "/products/base-pet",
-      color: "from-teal-500 to-teal-600",
+      gradient: "from-[#FFB14E] via-[#FAE18C] to-[#EAA71B]",
       features: ["Prontuário Animal", "Vacinas", "Cirurgias", "Pet Shop"],
       stats: "300+ clínicas vet"
     },
     {
       id: "base-shop",
-      name: "Base Shop",
+      name: "Base® Shop",
       description: "E-commerce completo com gestão de vendas e estoque",
       icon: ShoppingBag,
       route: "/products/base-shop",
-      color: "from-indigo-500 to-indigo-600",
+      gradient: "from-[#DAB1DA] to-[#DAB1DA]",
       features: ["Loja Virtual", "Marketplace", "Pagamentos", "Logística"],
       stats: "600+ lojas online"
     },
     {
-      id: "base-incorporacao",
-      name: "Base Incorporação e Construção",
+      id: "base-industria",
+      name: "Base® Indústria",
+      description: "Sistema de gestão industrial e controle de produção",
+      icon: Factory,
+      route: "/products/base-industria",
+      gradient: "from-[#808080] to-[#3F4757]",
+      features: ["Controle de Produção", "Qualidade", "Manutenção", "Custos"],
+      stats: "200+ indústrias"
+    },
+    {
+      id: "base-construtora",
+      name: "Base® Construtora e Incorporações",
       description: "Gestão de projetos imobiliários e construção civil",
       icon: Home,
-      route: "/products/base-incorporacao",
-      color: "from-gray-500 to-gray-600",
+      route: "/products/base-construtora",
+      gradient: "from-[#9C614A] to-[#FF1493]",
       features: ["Gestão de Obras", "Vendas", "Financeiro", "Documentos"],
       stats: "150+ projetos"
+    },
+    {
+      id: "base-pos",
+      name: "Base® POS e Tecn",
+      description: "Soluções tecnológicas e sistemas de ponto de venda",
+      icon: CreditCard,
+      route: "/products/base-pos",
+      gradient: "from-[#12C8C8] to-[#3F4757]",
+      features: ["PDV Avançado", "Pagamentos", "Integração", "Relatórios"],
+      stats: "2000+ pontos"
     }
   ]
 
   const stats = [
-    { icon: Users, label: "Clientes Ativos", value: "10.000+" },
-    { icon: TrendingUp, label: "Crescimento Anual", value: "150%" },
+    { icon: Users, label: "Clientes Ativos", value: "15.000+" },
+    { icon: TrendingUp, label: "Crescimento Anual", value: "180%" },
     { icon: Shield, label: "Uptime", value: "99.9%" },
-    { icon: Zap, label: "Produtos", value: "8" }
+    { icon: Zap, label: "Produtos", value: "13" }
   ]
 
   return (
@@ -107,7 +157,7 @@ export default function HomePage() {
             <div className="flex items-center">
               <Image
                 src="/Logo Grupo Base.png"
-                alt="Grupo Base"
+                alt="Grupo Base®"
                 width={120}
                 height={32}
                 className="h-8 w-auto"
@@ -123,6 +173,9 @@ export default function HomePage() {
               <Link href="#contato" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Contato
               </Link>
+              <Link href="/admin/webhook-config" className="text-gray-600 hover:text-blue-600 transition-colors">
+                Admin
+              </Link>
             </nav>
           </div>
         </div>
@@ -132,10 +185,10 @@ export default function HomePage() {
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 mb-6">
-            Grupo <span className="text-blue-600">Base</span>
+            Grupo <span className="text-blue-600">Base®</span>
           </h1>
           <p className="text-xl lg:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
-            Soluções tecnológicas completas para transformar seu negócio. 
+            Ecossistema completo de soluções tecnológicas para transformar seu negócio. 
             Sistemas especializados para cada segmento, com a qualidade e inovação que você precisa.
           </p>
           
@@ -158,7 +211,7 @@ export default function HomePage() {
       <section id="produtos" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Nossos Produtos</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Ecossistema Base®</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Soluções especializadas para cada segmento de mercado, desenvolvidas com tecnologia de ponta
             </p>
@@ -175,7 +228,7 @@ export default function HomePage() {
               >
                 <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
                   {/* Header with gradient */}
-                  <div className={`bg-gradient-to-r ${product.color} p-6 text-white relative overflow-hidden`}>
+                  <div className={`bg-gradient-to-r ${product.gradient} p-6 text-white relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-black bg-opacity-10"></div>
                     <div className="relative z-10">
                       <product.icon className="h-12 w-12 mb-4" />
@@ -245,7 +298,7 @@ export default function HomePage() {
             <div>
               <Image
                 src="/Logo Grupo Base.png"
-                alt="Grupo Base"
+                alt="Grupo Base®"
                 width={120}
                 height={32}
                 className="h-8 w-auto mb-4 filter brightness-0 invert"
@@ -255,21 +308,20 @@ export default function HomePage() {
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Produtos</h4>
+              <h4 className="font-semibold mb-4">Saúde</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/products/base-clinicas" className="hover:text-white">Base Clínicas</Link></li>
-                <li><Link href="/products/base-web" className="hover:text-white">Base Web</Link></li>
-                <li><Link href="/products/base-agro" className="hover:text-white">Base Agro</Link></li>
-                <li><Link href="/products/base-food" className="hover:text-white">Base Food</Link></li>
+                <li><Link href="/products/base-clinicas" className="hover:text-white">Base® Clínicas</Link></li>
+                <li><Link href="/products/base-hospital" className="hover:text-white">Base® Hospital</Link></li>
+                <li><Link href="/products/base-pet" className="hover:text-white">Base® Pet</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Mais Produtos</h4>
+              <h4 className="font-semibold mb-4">Negócios</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/products/base-saloes" className="hover:text-white">Base Salões</Link></li>
-                <li><Link href="/products/base-pet" className="hover:text-white">Base Pet</Link></li>
-                <li><Link href="/products/base-shop" className="hover:text-white">Base Shop</Link></li>
-                <li><Link href="/products/base-incorporacao" className="hover:text-white">Base Incorporação</Link></li>
+                <li><Link href="/products/base-comercio" className="hover:text-white">Base® Comércio</Link></li>
+                <li><Link href="/products/base-servicos" className="hover:text-white">Base® Serviços</Link></li>
+                <li><Link href="/products/base-shop" className="hover:text-white">Base® Shop</Link></li>
+                <li><Link href="/products/base-industria" className="hover:text-white">Base® Indústria</Link></li>
               </ul>
             </div>
             <div>
@@ -282,7 +334,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Grupo Base. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Grupo Base®. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

@@ -9,13 +9,13 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base® Pet - Gestão Veterinária e Pet Shops",
+  title: "Base® Barbearia - Gestão Especializada para Barbearias",
   description:
-    "Prontuário animal, vacinas, cirurgias e pet shop. Sistema completo para clínicas veterinárias.",
-  keywords: "veterinária, pet shop, prontuário animal, vacinas, cirurgias, gestão veterinária",
+    "Agendamento, produtos, comissões e marketing. Sistema especializado para barbearias modernas.",
+  keywords: "barbearia, agendamento, produtos, comissões, marketing, gestão barbearia",
 }
 
-export default function BasePetPage() {
+export default function BaseBarbeariaPage() {
   return (
     <div className="min-h-screen bg-white">
       <script
@@ -34,7 +34,7 @@ export default function BasePetPage() {
 
       <main>
         <Suspense fallback={<div>Carregando...</div>}>
-          <Hero specialty="pet" />
+          <Hero specialty="barbearia" />
         </Suspense>
 
         <Resources />

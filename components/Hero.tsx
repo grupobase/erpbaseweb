@@ -13,7 +13,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
 
   const specialtyContent = {
     medicina: {
-      title: "Sistema de Gestão Médica Completo",
+      title: "Base® Clínica e Consultórios",
       subtitle: "Transforme sua clínica com tecnologia de ponta",
       description:
         "Gerencie consultas, prontuários eletrônicos, faturamento e muito mais em uma única plataforma segura e intuitiva.",
@@ -24,21 +24,45 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
         "Telemedicina Integrada",
       ],
     },
-    web: {
-      title: "Desenvolvimento Web e Soluções Digitais",
-      subtitle: "Transforme sua presença digital",
+    hospital: {
+      title: "Base® Hospital",
+      subtitle: "Gestão hospitalar completa",
       description:
-        "Sites responsivos, e-commerce, SEO otimizado e analytics em uma plataforma completa para sua presença digital.",
+        "Sistema integrado para gestão de leitos, centro cirúrgico, farmácia hospitalar e faturamento em uma única plataforma.",
       benefits: [
-        "Sites Responsivos",
-        "E-commerce Completo",
-        "SEO Otimizado",
-        "Analytics Avançado",
+        "Gestão de Leitos",
+        "Centro Cirúrgico",
+        "Farmácia Hospitalar",
+        "Faturamento Integrado",
+      ],
+    },
+    comercio: {
+      title: "Base® Comércio",
+      subtitle: "Gestão comercial inteligente",
+      description:
+        "PDV integrado, controle de estoque, vendas e relatórios para estabelecimentos comerciais modernos.",
+      benefits: [
+        "PDV Integrado",
+        "Controle de Estoque",
+        "Gestão de Vendas",
+        "Relatórios Avançados",
+      ],
+    },
+    servicos: {
+      title: "Base® Serviços",
+      subtitle: "Gestão completa para prestadoras de serviços",
+      description:
+        "Ordem de serviço, agendamento, contratos e financeiro em uma plataforma especializada para empresas de serviços.",
+      benefits: [
+        "Ordem de Serviço",
+        "Agendamento Inteligente",
+        "Gestão de Contratos",
+        "Controle Financeiro",
       ],
     },
     agro: {
-      title: "Sistema de Gestão para Agronegócio",
-      subtitle: "Tecnologia para o campo",
+      title: "Base® Agro",
+      subtitle: "Tecnologia para o agronegócio",
       description:
         "Controle de safra, gestão pecuária, financeiro rural e relatórios especializados para propriedades rurais.",
       benefits: [
@@ -49,7 +73,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
       ],
     },
     food: {
-      title: "Gestão para Restaurantes",
+      title: "Base® Food",
       subtitle: "Sabor e tecnologia unidos",
       description:
         "Cardápio digital, delivery, controle de estoque e PDV integrado para estabelecimentos alimentícios.",
@@ -61,7 +85,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
       ],
     },
     saloes: {
-      title: "Sistema para Salões e Barbearias",
+      title: "Base® Salões",
       subtitle: "Beleza e gestão em harmonia",
       description:
         "Agendamento online, controle de serviços, comissões e programa de fidelidade para salões de beleza.",
@@ -72,8 +96,20 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
         "Programa de Fidelidade",
       ],
     },
+    barbearia: {
+      title: "Base® Barbearia",
+      subtitle: "Estilo e gestão moderna",
+      description:
+        "Agendamento, produtos, comissões e marketing especializado para barbearias modernas.",
+      benefits: [
+        "Agendamento Especializado",
+        "Gestão de Produtos",
+        "Controle de Comissões",
+        "Marketing Digital",
+      ],
+    },
     pet: {
-      title: "Gestão Veterinária e Pet Shops",
+      title: "Base® Pet",
       subtitle: "Cuidando dos nossos amigos",
       description:
         "Prontuário animal, controle de vacinas, cirurgias e gestão completa para clínicas veterinárias e pet shops.",
@@ -85,7 +121,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
       ],
     },
     shop: {
-      title: "E-commerce Completo",
+      title: "Base® Shop",
       subtitle: "Venda online sem limites",
       description:
         "Loja virtual, marketplace, pagamentos integrados e logística para seu e-commerce de sucesso.",
@@ -96,8 +132,20 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
         "Gestão de Logística",
       ],
     },
-    incorporacao: {
-      title: "Gestão de Incorporação e Construção",
+    industria: {
+      title: "Base® Indústria",
+      subtitle: "Produção inteligente",
+      description:
+        "Controle de produção, qualidade, manutenção e custos para indústrias modernas e eficientes.",
+      benefits: [
+        "Controle de Produção",
+        "Gestão de Qualidade",
+        "Manutenção Preventiva",
+        "Controle de Custos",
+      ],
+    },
+    construtora: {
+      title: "Base® Construtora e Incorporações",
       subtitle: "Construindo o futuro",
       description:
         "Gestão de obras, vendas, financeiro e documentos para projetos imobiliários e construção civil.",
@@ -108,8 +156,20 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
         "Gestão de Documentos",
       ],
     },
+    pos: {
+      title: "Base® POS e Tecn",
+      subtitle: "Tecnologia avançada",
+      description:
+        "PDV avançado, pagamentos integrados, relatórios e soluções tecnológicas completas para seu negócio.",
+      benefits: [
+        "PDV Avançado",
+        "Pagamentos Integrados",
+        "Relatórios Inteligentes",
+        "Integração Completa",
+      ],
+    },
     odontologia: {
-      title: "Software Odontológico Especializado",
+      title: "Base® Odontologia",
       subtitle: "Gestão completa para consultórios odontológicos",
       description:
         "Odontograma digital, controle de tratamentos, agendamento e financeiro em uma solução pensada para dentistas.",
@@ -121,7 +181,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
       ],
     },
     psicologia: {
-      title: "Plataforma para Psicólogos",
+      title: "Base® Psicologia",
       subtitle: "Gestão segura e confidencial",
       description:
         "Prontuários seguros, agendamento flexível e ferramentas especializadas para profissionais de saúde mental.",
@@ -196,7 +256,7 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
               <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                   <Users className="h-6 w-6 text-blue-600 mr-2" />
-                  <span className="text-2xl font-bold text-gray-900">10000+</span>
+                  <span className="text-2xl font-bold text-gray-900">15000+</span>
                 </div>
                 <p className="text-sm text-gray-600">Clientes Ativos</p>
               </div>
@@ -223,8 +283,8 @@ export default function Hero({ specialty = "medicina" }: HeroProps) {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl transform -rotate-6"></div>
               <div className="relative bg-white rounded-xl p-6">
                 <img
-                  src={`/placeholder.svg?height=400&width=600&text=Dashboard+Base+${specialty.charAt(0).toUpperCase() + specialty.slice(1)}`}
-                  alt={`Dashboard Base ${specialty.charAt(0).toUpperCase() + specialty.slice(1)}`}
+                  src={`/placeholder.svg?height=400&width=600&text=Dashboard+Base®+${specialty.charAt(0).toUpperCase() + specialty.slice(1)}`}
+                  alt={`Dashboard Base® ${specialty.charAt(0).toUpperCase() + specialty.slice(1)}`}
                   className="w-full h-auto rounded-lg shadow-lg"
                 />
                 <div className="absolute inset-0 bg-blue-600 bg-opacity-10 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">

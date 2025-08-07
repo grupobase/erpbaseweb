@@ -9,10 +9,10 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base Salões e Barbearias - Sistema de Gestão para Beleza",
+  title: "Base® Salões - Sistema de Gestão para Salões de Beleza",
   description:
     "Agendamento online, controle de serviços, comissões e fidelidade. Sistema especializado para salões.",
-  keywords: "salão beleza, barbearia, agendamento online, comissões, fidelidade, gestão beleza",
+  keywords: "salão beleza, agendamento online, comissões, fidelidade, gestão beleza",
 }
 
 export default function BaseSaloesPage() {

@@ -9,7 +9,7 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base Shop - E-commerce Completo",
+  title: "Base® Shop - E-commerce Completo",
   description:
     "Loja virtual, marketplace, pagamentos e logística. Plataforma completa de e-commerce.",
   keywords: "e-commerce, loja virtual, marketplace, pagamentos, logística, vendas online",

@@ -9,9 +9,9 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base Food - Gestão para Restaurantes e Estabelecimentos Alimentícios",
+  title: "Base® Food - Gestão para Restaurantes",
   description:
-    "Cardápio digital, delivery, controle de estoque e PDV. Sistema completo para restaurantes.",
+    "Cardápio digital, delivery, controle de estoque e PDV. Sistema completo para estabelecimentos alimentícios.",
   keywords: "restaurante, delivery, cardápio digital, PDV, controle estoque, gestão alimentícia",
 }
 

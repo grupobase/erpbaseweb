@@ -9,17 +9,10 @@ import Footer from "@/components/Footer"
 import TestForm from "@/components/TestForm"
 
 export const metadata: Metadata = {
-  title: "Base Agro - Sistema de Gestão para Agronegócio",
+  title: "Base® Agro - Sistema de Gestão para Agronegócio",
   description:
     "Controle de safra, gestão pecuária, financeiro rural e relatórios. Sistema completo para propriedades rurais.",
   keywords: "agronegócio, gestão rural, controle safra, pecuária, financeiro rural, agricultura",
-  openGraph: {
-    title: "Base Agro - Sistema de Gestão para Agronegócio",
-    description:
-      "Transforme a gestão da sua propriedade rural com tecnologia especializada.",
-    images: ["/images/base-agro-og.jpg"],
-    type: "website",
-  },
 }
 
 export default function BaseAgroPage() {
